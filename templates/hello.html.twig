@@ -3,10 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome!</title>
+    <style>
+        input {margin-bottom: 25px}
+    </style>
 </head>
 <body>
-<h1>Hello world controller</h1>
+<h1>Registration</h1>
 
-<p>TWIG</p>
+<form method="POST" action="{{ path("user_create") }}">
+
+    <label for="username">Your User name</label>
+    <input id="username" name="username" type="text" placeholder="User Name"><br>
+
+    <label for="first-name">Your First name</label>
+    <input id="first-name" name="firstName" type="text" placeholder="First name"><br>
+
+    <label for="last-name">Your Last name</label>
+    <input id="last-name" name="lastName" type="text" placeholder="Last name"><br>
+
+    <label for="pass">Password</label>
+    <input id="pass" name="pass" type="password" placeholder="password"><br>
+
+    <button type="submit">Send</button>
+
+</form>
+
 </body>
 </html>

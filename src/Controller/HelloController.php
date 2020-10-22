@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HelloController extends AbstractController
 {
     /**
-     * @Route("/hello", name="app_hello")
+     * @Route("/registration", name="app_hello")
      */
     public function hello(): Response
     {

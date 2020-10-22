@@ -11,16 +11,26 @@ use App\Service\UserService;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user/create")
+     * @Route("/user/create", name="user_create")
      * @param UserService $userService
      * @return Response
      */
     public function createAction(UserService $userService): Response
     {
-       $userService->createAndFlush('Ivani','Ivan','Ivanov','7896543');
+       if(isset($_POST)){
+           $username = htmlspecialchars($_POST['username']);
+           $firstName = $_POST['firstName'];
+           $lastName = $_POST['lastName'];
+           $pass = $_POST['pass'];
+       }
+
+       $userService->createAndPersist($username,$firstName,$lastName,$pass);
 
         return $this->render('user/index.html.twig', [
             'title' => 'User created',
+            'username' => $username,
+            'firstName' => $firstName,
+            'lastName' => $lastName
         ]);
     }
 }

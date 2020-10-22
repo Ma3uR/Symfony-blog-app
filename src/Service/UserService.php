@@ -9,15 +9,14 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserService
 {
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-//        parent::__construct();
     }
 
-    public function createAndFlush($username,$firstName,$lastName,$password): void
+    public function createAndPersist($username, $firstName, $lastName, $password): User
     {
         $user = new User();
         $user->setUsername($username)
@@ -27,5 +26,7 @@ class UserService
         $em = $this->em;
         $em->persist($user);
         $em->flush();
+
+        return $user;
     }
 }
