@@ -69,7 +69,6 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     #get the user with the most count of articles
-
     public function selectUsersCountOfArticles(): QueryBuilder
     {
         return $this->createQueryBuilder('a')
@@ -87,9 +86,7 @@ class ArticleRepository extends ServiceEntityRepository
                     ->getResult();
     }
 
-
-
-
+    #example how work with one selection
     public function selectAllArticlesWithAuthors(): QueryBuilder {
         return $this->createQueryBuilder('a')
             ->select('a, u')

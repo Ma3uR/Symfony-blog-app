@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ArticleRepository;
 
-class ArticlesController extends AbstractController
+class GetArticlesController extends AbstractController
 {
     /**
      * @Route("/articles", name="articles")
