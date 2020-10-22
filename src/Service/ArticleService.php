@@ -19,11 +19,10 @@ class ArticleService
         $this->em = $em;
     }
 
-    public function createAndPersist(string $title, string $description, User $author, Category $category): void
+    public function createAndPersist($title, $description, Category $category): void
     {
         $article = new Article();
         $article->setTitle($title)
-                ->setAuthor($author)
                 ->setDescription($description)
                 ->setCategory($category);
         $em = $this->em;
