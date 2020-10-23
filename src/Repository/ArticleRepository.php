@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -13,15 +14,12 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Article[]    findAll()
  * @method Article[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ArticleRepository extends ServiceEntityRepository
-{
-    public function __construct(ManagerRegistry $registry)
-    {
+class ArticleRepository extends ServiceEntityRepository {
+    public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Article::class);
     }
 
-    public function getAllArticles(): array
-    {
+    public function getAllArticles(): array {
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
@@ -32,15 +30,13 @@ class ArticleRepository extends ServiceEntityRepository
         $stmt = $conn->prepare($sql);
         $stmt->execute();
 
-        // returns an array of arrays (i.e. a raw data set)
         return $stmt->fetchAll();
     }
 
     /**
      * @return Article[] Returns an array of Article objects
      */
-    public function getAllArticlesBuilder(): array
-    {
+    public function getAllArticlesBuilder(): array {
         return $this
             ->createQueryBuilder('a')
             ->select('a.id')
@@ -55,54 +51,48 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    #get the count of articles in each category
-    public function getCountOfArticles()
-    {
+    public function getCount() {
         return $this->createQueryBuilder('a')
-                    ->select('c.title')
-                    ->addSelect('COUNT(a.id) AS count_of_articles')
-                    ->innerJoin('a.category', 'c')
-                    ->groupBy('a.category')
-                    ->orderBy('count_of_articles', 'DESC')
-                    ->getQuery()
-                    ->getResult();
+            ->select('c.title')
+            ->addSelect('COUNT(a.id) AS count_of_articles')
+            ->innerJoin('a.category', 'c')
+            ->groupBy('a.category')
+            ->orderBy('count_of_articles', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
-    #get the user with the most count of articles
-    public function selectUsersCountOfArticles(): QueryBuilder
-    {
+    public function selectUsersCountOfArticles(): QueryBuilder {
         return $this->createQueryBuilder('a')
-                    ->select ('u.id AS author_of_articles')
-                    ->innerJoin('a.author','u')
-                    ->addSelect('COUNT(a.author) AS count_of_articles');
+            ->select('u.id AS author_of_articles')
+            ->innerJoin('a.author', 'u')
+            ->addSelect('COUNT(a.author) AS count_of_articles');
     }
 
-    public function getUserWithMostArticles()
-    {
+    public function getUserWithMostArticles() {
         return $this->selectUsersCountOfArticles()
-                    ->orderBy('a.author')
-                    ->setMaxResults('1')
-                    ->getQuery()
-                    ->getResult();
+            ->orderBy('a.author')
+            ->setMaxResults('1')
+            ->getQuery()
+            ->getResult();
     }
 
-    #example how work with one selection
-    public function selectAllArticlesWithAuthors(): QueryBuilder {
+    public function selectAllWithAuthors(): QueryBuilder {
         return $this->createQueryBuilder('a')
             ->select('a, u')
             ->innerJoin('a.author', 'u');
     }
 
-    public function getAllArticlesWithAuthorsOrderedByTitle() {
-        return $this->selectAllArticlesWithAuthors()
-            ->orderBy('a.title','DESC')
+    public function getAllWithAuthorsOrderedByTitle() {
+        return $this->selectAllWithAuthors()
+            ->orderBy('a.title', 'DESC')
             ->getQuery()
             ->getResult();
     }
 
-    public function getAllArticlesWithAuthorsOrderedByDescription() {
-        return $this->selectAllArticlesWithAuthors()
-            ->orderBy('a.description','DESC')
+    public function getAllWithAuthorsOrderedByDescription() {
+        return $this->selectAllWithAuthors()
+            ->orderBy('a.description', 'DESC')
             ->getQuery()
             ->getResult();
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -15,7 +16,11 @@ class ArticleController extends AbstractController
     /**
      * @Route ("/article/create", name="article_create")
      */
-    public function createAction(ArticleService $articleService, UserService $userService, CategoryService $categoryService, Request $request): Response
+    public function createAction(
+        ArticleService $articleService,
+        UserService $userService,
+        CategoryService $categoryService,
+        Request $request): Response
     {
         $title = $request->request->get('title');
         $desc = $request->request->get('description');
@@ -23,7 +28,8 @@ class ArticleController extends AbstractController
         $category = $categoryService->createAndPersist($cat);
 
         $articleService->createAndPersist($title,$desc, $category);
-        return $this->render('article/index.html.twig', [
+
+        return $this->render('article/article.html.twig', [
             'title' => 'Article created',
             'article_title' => $title,
             'category' => $category->getTitle()
