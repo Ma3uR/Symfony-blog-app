@@ -13,9 +13,6 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/user/create", name="user_create")
-     * @param UserService $userService
-     * @param Request $request
-     * @return Response
      */
     public function createAction(UserService $userService, Request $request): Response
     {
@@ -23,13 +20,6 @@ class UserController extends AbstractController
         $firstName = $request->request->get('firstName');
         $lastName = $request->request->get('lastName');
         $pass = $request->request->get('pass');
-
-//       if(isset($_POST)){
-//           $username = htmlspecialchars($_POST['username']);
-//           $firstName = $_POST['firstName'];
-//           $lastName = $_POST['lastName'];
-//           $pass = $_POST['pass'];
-//       }
 
        $userService->createAndPersist($username,$firstName,$lastName,$pass);
 
