@@ -39,7 +39,6 @@ class UserController extends AbstractController {
      */
     public function registration(UserService $userService): Response {
 
-
         return $this->render('user/registration.html.twig', [
           'env' => $userService->getEnvVar()
         ]);
