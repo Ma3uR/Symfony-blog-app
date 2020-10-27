@@ -16,7 +16,7 @@ use App\Service\UserService;
  */
 class UserController extends AbstractController {
     /**
-     * @Route("/create", name="_create")
+     * @Route("/created", name="_create")
      */
     public function createAction(UserService $userService, Request $request): Response {
         $username = $request->request->get('username');
@@ -27,6 +27,7 @@ class UserController extends AbstractController {
         $userService->createAndPersist($username, $firstName, $lastName, $pass);
 
         return $this->render('user/user.html.twig', [
+            'page_title' => 'User greetings',
             'title' => 'User created',
             'username' => $username,
             'firstName' => $firstName,
@@ -40,6 +41,7 @@ class UserController extends AbstractController {
     public function registration(UserService $userService): Response {
 
         return $this->render('user/registration.html.twig', [
+          'page_title' => 'Registration',
           'env' => $userService->getEnvVar()
         ]);
     }

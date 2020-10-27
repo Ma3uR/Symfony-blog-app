@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Front{% endblock %}
+
+{% block navigation %}
+    <nav>
+        <ul>
+            <li><a href="/user/registration">Registration</a></li>
+            <li><a href="/article/create">Create article</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    {% block greetings %} Welcome to the front page {% endblock %}
+
+    <h1>Articles</h1>
+    <div class="wrapper">
+        {% for a in articles %}
+            <div class="item">
+                <h3>{{ a.article_title }}</h3>
+                <p>{{ a.description }}</p>
+                <div class="item__category">Category: {{ a.category_title }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
+

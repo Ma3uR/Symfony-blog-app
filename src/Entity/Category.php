@@ -28,11 +28,11 @@ class Category {
     /**
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="category")
      */
-    private ArrayCollection $articles;
-
-    public function __construct() {
-        $this->articles = new ArrayCollection();
-    }
+//    private ArrayCollection $articles;
+//
+//    public function __construct() {
+//        $this->articles = new ArrayCollection();
+//    }
 
     public function getId(): ?int {
         return $this->id;
@@ -48,10 +48,8 @@ class Category {
         return $this;
     }
 
-    /**
-     * @return Collection|Article[]
-     */
-    public function getArticles(): Collection {
+
+    public function getArticles(): ArrayCollection {
         return $this->articles;
     }
 

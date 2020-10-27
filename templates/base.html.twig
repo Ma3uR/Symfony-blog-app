@@ -2,11 +2,34 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}"/>
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="container">
+            {% block body %}
+                <header>
+                    {% block header %}
+                        <div class="logo"><a href="/">DV</a></div>
+                        <h1>{{ page_title }}</h1>
+                        {% block navigation %}
+
+                        {% endblock %}
+                    {% endblock %}
+                </header>
+                    {% block content %}
+
+                    {% endblock %}
+                <footer>
+                    {% block footer %}
+                        <h2> &copy; Default value</h2>
+                    {% endblock %}
+                </footer>
+            {% endblock %}
+        </div>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

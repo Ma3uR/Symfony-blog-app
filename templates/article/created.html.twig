@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block navigation %}
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/user/create">Create user</a></li>
+            <li><a href="/article/create">Create another article</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{%  block content %}
+    <h2>Title: {{ article_title }}</h2>
+    <h2>Category: {{ category }}</h2>
+{%  endblock %}
+
