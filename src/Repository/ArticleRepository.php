@@ -33,9 +33,6 @@ class ArticleRepository extends ServiceEntityRepository {
         return $stmt->fetchAll();
     }
 
-    /**
-     * @return Article[] Returns an array of Article objects
-     */
     public function getAllArticlesBuilder(): array {
         return $this
             ->createQueryBuilder('a')
