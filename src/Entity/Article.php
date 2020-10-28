@@ -20,24 +20,26 @@ class Article {
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $title;
+    private ?string $title; // TODO: not null
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $description;
+    private ?string $description; // TODO: not null
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?User $author;
+    private ?User $author; // TODO: how article can be without author?
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=true)
      */
     private ?Category $category;
+
+    //todo create constructor with required fields
 
     public function getId(): ?int {
         return $this->id;

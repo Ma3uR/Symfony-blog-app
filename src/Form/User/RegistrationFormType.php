@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class RegistrationFormType extends AbstractType {
+    // TODO: implement config of this form type that will set data class User instead of raw array
+
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('user_name', TextType::class, ['label' => 'User name'])
             ->add('first_name', TextType::class, ['label' => 'First Name'])

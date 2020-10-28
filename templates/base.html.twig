@@ -12,9 +12,9 @@
         <div class="container">
             {% block body %}
                 <header>
-                    {% block header %}
+                    {% block header %} {# TODO: remove #}
                         <div class="logo"><a href="{{ path('front') }}">DV</a></div>
-                        {% block navigation %}
+                        {% block navigation %}{# TODO: remove #}
                             <nav>
                                 <ul>
                                     <li><a class="{{ app.request.get('_route') == 'front' ? 'active' }}" href="{{ path('front') }}">Home</a></li>
@@ -34,12 +34,12 @@
 
                     {% endblock %}
                 <footer>
-                    {% block footer %}
+                    {% block footer %}{# TODO: remove #}
                         <h2> &copy; Default value</h2>
                     {% endblock %}
                 </footer>
             {% endblock %}
         </div>
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}{% endblock %}{# TODO: remove block #}
     </body>
 </html>

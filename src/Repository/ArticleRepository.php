@@ -19,6 +19,7 @@ class ArticleRepository extends ServiceEntityRepository {
         parent::__construct($registry, Article::class);
     }
 
+    // TODO: remove
     public function getAllArticles(): array {
         $conn = $this->getEntityManager()->getConnection();
 
@@ -33,9 +34,9 @@ class ArticleRepository extends ServiceEntityRepository {
         return $stmt->fetchAll();
     }
 
+    // TODO: naming fix
     public function getAllArticlesBuilder(): array {
-        return $this
-            ->createQueryBuilder('a')
+        return $this->createQueryBuilder('a')
             ->select('a.id')
             ->addSelect("CONCAT(u.firstName,' ',u.lastName) AS full_name")
             ->addSelect('a.title AS article_title')
@@ -48,7 +49,7 @@ class ArticleRepository extends ServiceEntityRepository {
             ->getResult();
     }
 
-    public function getCount() {
+    public function getCount() { // todo remove
         return $this->createQueryBuilder('a')
             ->select('c.title')
             ->addSelect('COUNT(a.id) AS count_of_articles')
@@ -59,14 +60,14 @@ class ArticleRepository extends ServiceEntityRepository {
             ->getResult();
     }
 
-    public function selectUsersCountOfArticles(): QueryBuilder {
+    public function selectUsersCountOfArticles(): QueryBuilder { // TODO remove
         return $this->createQueryBuilder('a')
             ->select('u.id AS author_of_articles')
             ->innerJoin('a.author', 'u')
             ->addSelect('COUNT(a.author) AS count_of_articles');
     }
 
-    public function getUserWithMostArticles() {
+    public function getUserWithMostArticles() { // TODO remove
         return $this->selectUsersCountOfArticles()
             ->orderBy('a.author')
             ->setMaxResults('1')
@@ -74,20 +75,20 @@ class ArticleRepository extends ServiceEntityRepository {
             ->getResult();
     }
 
-    public function selectAllWithAuthors(): QueryBuilder {
+    public function selectAllWithAuthors(): QueryBuilder { // TODO remove
         return $this->createQueryBuilder('a')
             ->select('a, u')
             ->innerJoin('a.author', 'u');
     }
 
-    public function getAllWithAuthorsOrderedByTitle() {
+    public function getAllWithAuthorsOrderedByTitle() { // TODO remove
         return $this->selectAllWithAuthors()
             ->orderBy('a.title', 'DESC')
             ->getQuery()
             ->getResult();
     }
 
-    public function getAllWithAuthorsOrderedByDescription() {
+    public function getAllWithAuthorsOrderedByDescription() { // TODO remove
         return $this->selectAllWithAuthors()
             ->orderBy('a.description', 'DESC')
             ->getQuery()

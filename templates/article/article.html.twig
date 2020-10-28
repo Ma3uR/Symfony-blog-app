@@ -1,9 +1,10 @@
+{# TODO: file naming fix #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Create article{% endblock %}
 
 {% block content %}
-    {% block greetings %}
-        {{ include('article/form.html.twig') }}
+    {% block greetings %} {# TODO: remove block #}
+        {{ include('article/form.html.twig') }} {# TODO: remove not required import #}
     {% endblock %}
 {% endblock %}

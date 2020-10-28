@@ -3,8 +3,11 @@
 {% block title %}Registration{% endblock %}
 
 {% block content %}
+{#    TODO  remove block#}
     {% block greetings %}
+{#        todo remove not nessesary include (use form here#}
         {{ include('user/form.html.twig') }}
+
 
     {% endblock %}
     <h2>Total users in app: {{ count_users() }}</h2>

@@ -5,7 +5,7 @@ namespace App\Entity;
 
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Collection; // todo remove
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,10 +22,14 @@ class Category {
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * TODO: it is not null!!!!!
      */
     private ?string $title;
 
     /**
+     * TODO: what is it?
+     *
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="category")
      */
 
@@ -43,7 +47,7 @@ class Category {
         return $this;
     }
 
-
+    // TODO: check validation errors below
     public function getArticles(): ArrayCollection {
         return $this->articles;
     }

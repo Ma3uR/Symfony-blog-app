@@ -8,6 +8,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+// TODO: command naming fix
+// TODO: finish command logic
+// TODO: use $io object (SymfonyStyle) to make it beautiful
 class CreateUserCommand extends Command {
 
     protected static $defaultName = 'app:create-user';
