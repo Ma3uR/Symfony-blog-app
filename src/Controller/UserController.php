@@ -3,46 +3,36 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-
+use App\Form\User\RegistrationFormType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\UserService;
 
-
 /**
  * @Route("/user", name="user")
  */
 class UserController extends AbstractController {
     /**
-     * @Route("/created", name="_create")
+     * @Route("/registration", name="_registration")
      */
-    public function createAction(UserService $userService, Request $request): Response {
-        $username = $request->request->get('username');
-        $firstName = $request->request->get('firstName');
-        $lastName = $request->request->get('lastName');
-        $pass = $request->request->get('pass');
+    public function registration(EntityManagerInterface $em, Request $request, UserService $service): Response {
 
-        $userService->createAndPersist($username, $firstName, $lastName, $pass);
+        $form = $this->createForm(RegistrationFormType::class);
 
-        return $this->render('user/user.html.twig', [
-            'page_title' => 'User greetings',
-            'title' => 'User created',
-            'username' => $username,
-            'firstName' => $firstName,
-            'lastName' => $lastName
-        ]);
-    }
-
-    /**
-     * @Route("/registration", name="app_registration")
-     */
-    public function registration(UserService $userService): Response {
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $service->createAndPersist($data['user_name'], $data['first_name'], $data['last_name'], $data['password']);;
+            $this->addFlash('success', 'User: ' . $data['user_name'] . ' Created!✅');
+            return $this->redirect($this->generateUrl('front'));
+        }
 
         return $this->render('user/registration.html.twig', [
-          'page_title' => 'Registration',
-          'env' => $userService->getEnvVar()
+            'page_title' => 'Registration',
+            'form' => $form->createView()
         ]);
     }
 }

@@ -2,18 +2,8 @@
 
 {% block title %}Front{% endblock %}
 
-{% block navigation %}
-    <nav>
-        <ul>
-            <li><a href="/user/registration">Registration</a></li>
-            <li><a href="/article/create">Create article</a></li>
-        </ul>
-    </nav>
-{% endblock %}
-
 {% block content %}
     {% block greetings %} Welcome to the front page {% endblock %}
-
     <h1>Articles</h1>
     <div class="wrapper">
         {% for a in articles %}
@@ -24,6 +14,5 @@
             </div>
         {% endfor %}
     </div>
-
 {% endblock %}
 

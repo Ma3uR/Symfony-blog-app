@@ -11,5 +11,5 @@ gulp.task('default', async function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch('/path/to/your/css/**/*.css', ['minifyCss']);
+    gulp.watch('public/assets/sass/**/*.scss', gulp.series('default'));
 });

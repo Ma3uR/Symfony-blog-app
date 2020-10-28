@@ -19,11 +19,11 @@ class UserRepository extends ServiceEntityRepository {
         parent::__construct($registry, User::class);
     }
 
-    public function countByUsers(): array {
+    public function countAll(): string {
         return $this->createQueryBuilder('u')
             ->select('COUNT(u.id) AS count_of_users')
             ->getQuery()
-            ->getResult();
+            ->getSingleScalarResult();
     }
 }
 

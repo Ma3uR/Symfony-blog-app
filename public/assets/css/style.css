@@ -27,18 +27,46 @@ h1 {
       text-decoration: underline; }
 
 ul {
+  display: flex;
+  justify-content: center;
   list-style: none; }
   ul li a {
     display: inline-block;
     margin-bottom: 25px;
+    margin-right: 5px;
+    margin-left: 5px;
     padding: 5px;
-    background: gray;
-    color: #fff;
+    color: #000;
     font-size: 25px;
-    transition: .5s; }
-    ul li a:hover {
-      background: #fff;
-      color: #000; }
+    transition: .5s;
+    position: relative; }
+  ul li a:after {
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 0;
+    position: absolute;
+    background: green;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0%; }
+  ul li a:hover:after {
+    width: 100%;
+    left: 0; }
+  ul li .active {
+    position: relative; }
+    ul li .active:after {
+      width: 100%;
+      background: none repeat scroll 0 0 transparent;
+      bottom: 0;
+      content: "";
+      display: block;
+      height: 2px;
+      left: 0;
+      position: absolute;
+      background: green;
+      transition: width 0.3s ease 0s, left 0.3s ease 0s; }
 
 .wrapper {
   display: flex;
@@ -59,7 +87,13 @@ form {
     font-size: 25px; }
   form button {
     font-size: 25px;
-    padding: 10px;
+    padding: 5px 15px 5px 15px;
     cursor: pointer; }
+  form label {
+    margin-right: 10px; }
+
+.alert-success {
+  font-size: 30px;
+  color: green; }
 
 /*# sourceMappingURL=style.css.map */

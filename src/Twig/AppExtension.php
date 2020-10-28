@@ -3,12 +3,9 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
-use App\Entity\User;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-
 
 class AppExtension extends AbstractExtension {
 
@@ -20,24 +17,11 @@ class AppExtension extends AbstractExtension {
 
     public function getFunctions(): array {
         return [
-            new TwigFunction('user', [$this, 'countByUsers']),
+            new TwigFunction('count_users', [$this, 'countUsers']),
         ];
     }
 
-    public function countByUsers(): string {
-        $users = $this->repo->countByUsers();
-        $users = implode(', ', array_map(
-            static function ($v, $k) {
-                if (is_array($v)) {
-                    return implode('&' . $k . '', $v);
-                }
-                return $k . '' . $v;
-            },
-            $users,
-            array_keys($users)
-        ));
-
-        return $users;
-
+    public function countUsers(): string {
+        return $this->repo->countAll();
     }
 }

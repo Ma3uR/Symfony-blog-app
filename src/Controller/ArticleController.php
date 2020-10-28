@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Article;
-use App\Repository\ArticleRepository;
+use App\Form\Article\CreateArticleFormType;
 use App\Service\ArticleService;
 use App\Service\CategoryService;
-use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,39 +15,26 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route ("/article")
  */
-class ArticleController extends AbstractController
-{
-    /**
-     * @Route ("/created", name="article_create")
-     */
-    public function createAction(
-        ArticleService $articleService,
-        UserService $userService,
-        CategoryService $categoryService,
-        Request $request): Response
-    {
-        $title = $request->request->get('title');
-        $desc = $request->request->get('description');
-        $cat = $request->request->get('category');
-        $category = $categoryService->createAndPersist($cat);
-
-        $articleService->createAndPersist($title,$desc, $category);
-
-
-        return $this->render('article/created.html.twig', [
-            'page_title' => 'Article created ✅',
-            'article_title' => $title,
-            'category' => $category->getTitle()
-        ]);
-    }
+class ArticleController extends AbstractController {
 
     /**
-     * @Route ("/create")
+     * @Route ("/create", name="create")
      */
-    public function create(EntityManagerInterface $em) {
+    public function create(EntityManagerInterface $em, Request $request, ArticleService $articleService, CategoryService $categoryService): Response {
+
+        $form = $this->createForm(CreateArticleFormType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $category = $categoryService->createAndPersist($data['cat']);
+            $articleService->createAndPersist($data['title'], $data['desc'], $category);
+            $this->addFlash('success', 'Article: '. $data['title'] .' Created!✅');
+            return $this->redirect($this->generateUrl('front'));
+        }
 
         return $this->render('article/article.html.twig', [
-           'page_title'=>'Create article'
+            'form' => $form->createView()
         ]);
     }
 }

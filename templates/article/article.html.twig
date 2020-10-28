@@ -2,15 +2,6 @@
 
 {% block title %}Create article{% endblock %}
 
-{% block navigation %}
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/user/registration">Registration</a></li>
-        </ul>
-    </nav>
-{% endblock %}
-
 {% block content %}
     {% block greetings %}
         {{ include('article/form.html.twig') }}

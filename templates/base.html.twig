@@ -13,11 +13,21 @@
             {% block body %}
                 <header>
                     {% block header %}
-                        <div class="logo"><a href="/">DV</a></div>
-                        <h1>{{ page_title }}</h1>
+                        <div class="logo"><a href="{{ path('front') }}">DV</a></div>
                         {% block navigation %}
-
+                            <nav>
+                                <ul>
+                                    <li><a class="{{ app.request.get('_route') == 'front' ? 'active' }}" href="{{ path('front') }}">Home</a></li>
+                                    <li><a class="{{ app.request.get('_route') == 'create' ? 'active' }}"  href="{{ path('create') }}">Create Article</a></li>
+                                    <li><a class="{{ app.request.get('_route') == 'user_registration' ? 'active' }}"  href="{{ path('user_registration') }}">Registration</a></li>
+                                </ul>
+                            </nav>
                         {% endblock %}
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
                     {% endblock %}
                 </header>
                     {% block content %}

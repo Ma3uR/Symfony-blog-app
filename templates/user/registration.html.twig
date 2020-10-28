@@ -2,18 +2,10 @@
 
 {% block title %}Registration{% endblock %}
 
-{% block navigation %}
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/article/create">Create article</a></li>
-        </ul>
-    </nav>
-{% endblock %}
-
 {% block content %}
     {% block greetings %}
         {{ include('user/form.html.twig') }}
+
     {% endblock %}
-    <h2>Total users in app: {{ user() }}</h2>
+    <h2>Total users in app: {{ count_users() }}</h2>
 {% endblock %}
