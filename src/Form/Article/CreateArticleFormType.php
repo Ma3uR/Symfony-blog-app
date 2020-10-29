@@ -16,12 +16,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class CreateArticleFormType extends AbstractType {
     // TODO: implement config of this form type that will set data class Article instead of raw array
-    // TODO: implement new action in new controller to create category
-
-    /**
-     * @var UserRepository
-     */
-    private UserRepository $user;
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('title', TextType::class, ['label' => 'Title'])
             ->add('desc', TextType::class, ['label' => 'Description'])

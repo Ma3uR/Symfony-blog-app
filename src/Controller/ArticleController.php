@@ -19,7 +19,7 @@ class ArticleController extends AbstractController {
     /**
      * @Route ("/create", name="create")
      */
-    public function create(EntityManagerInterface $em, Request $request, ArticleService $articleService, CategoryService $categoryService): Response {
+    public function create(Request $request, ArticleService $articleService): Response {
         $form = $this->createForm(CreateArticleFormType::class);
         $form->handleRequest($request);
 

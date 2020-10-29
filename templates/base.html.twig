@@ -17,6 +17,7 @@
                                 <ul>
                                     <li><a class="{{ app.request.get('_route') == 'home' ? 'active' }}" href="{{ path('home') }}">Home</a></li>
                                     <li><a class="{{ app.request.get('_route') == 'article_create' ? 'active' }}"  href="{{ path('article_create') }}">Create Article</a></li>
+                                    <li><a class="{{ app.request.get('_route') == 'category_create' ? 'active' }}"  href="{{ path('category_create') }}">Create Category</a></li>
                                     <li><a class="{{ app.request.get('_route') == 'user_registration' ? 'active' }}"  href="{{ path('user_registration') }}">Registration</a></li>
                                 </ul>
                             </nav>
