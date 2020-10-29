@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entity;
@@ -15,23 +16,23 @@ class Article {
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private int $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private ?string $title; // TODO: not null
+    private string $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private ?string $description; // TODO: not null
+    private string $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?User $author; // TODO: how article can be without author?
+    private User $author;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="articles")
@@ -40,6 +41,10 @@ class Article {
     private ?Category $category;
 
     //todo create constructor with required fields
+//
+//    public function __construct() {
+//        $this->author = $author;
+//    }
 
     public function getId(): ?int {
         return $this->id;

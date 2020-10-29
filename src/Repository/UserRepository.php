@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Repository;
@@ -24,5 +25,12 @@ class UserRepository extends ServiceEntityRepository {
             ->select('COUNT(u.id) AS count_of_users')
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function getAll(): array {
+        return $this->createQueryBuilder('u')
+            ->select('u.id, u.username')
+            ->getQuery()
+            ->getResult();
     }
 }

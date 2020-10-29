@@ -1,10 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entity;
 
-// todo: unused
-use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,15 +16,14 @@ class User {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=false)
      */
-    private ?int $id;
+    private int $id;
 
     /**
-     * todo: user cannot be without this field (logic corrupt)
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private ?string $username;
+    private string $username;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -38,16 +36,20 @@ class User {
     private ?string $lastName;
 
     /**
-     * todo: user cannot be without this field (logic corrupt)
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=false)
      */
-    private ?string $password;
+    private string $password;
 
     /**
      * TODO: it is big bug
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="author")
      */
-    private ?Article $articles;
+    private Collection $articles;
+
+    public function __construct()
+    {
+        $this->articles = new ArrayCollection();
+    }
 
     public function getId(): ?int {
         return $this->id;

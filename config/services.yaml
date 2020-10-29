@@ -34,3 +34,5 @@ services:
     App\Service\UserService:
         arguments:
             $appEnv: '%env(MY_VAR)%'
+
+#    Symfony\Component\Console\Style\SymfonyStyle: '@SymfonyStyle'

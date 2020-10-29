@@ -8,7 +8,6 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension {
-// todo no new line
     private UserRepository $repo;
 
     public function __construct(UserRepository $repository) {

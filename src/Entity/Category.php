@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection; // todo remove
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,29 +15,22 @@ class Category {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=false)
      */
-
-    private ?int $id;
+    private int $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * TODO: it is not null!!!!!
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private ?string $title;
+    private string $title;
 
-    /**
-     * TODO: what is it?
-     *
-     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="category")
-     */
+    private ArrayCollection $articles;
 
-    public function getId(): ?int {
+    public function getId(): int {
         return $this->id;
     }
 
-    public function getTitle(): ?string {
+    public function getTitle(): string {
         return $this->title;
     }
 
@@ -47,7 +40,7 @@ class Category {
         return $this;
     }
 
-    // TODO: check validation errors below
+
     public function getArticles(): ArrayCollection {
         return $this->articles;
     }
@@ -64,7 +57,6 @@ class Category {
     public function removeArticle(Article $article): self {
         if ($this->articles->contains($article)) {
             $this->articles->removeElement($article);
-            // set the owning side to null (unless already changed)
             if ($article->getCategory() === $this) {
                 $article->setCategory(null);
             }

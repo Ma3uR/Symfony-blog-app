@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+a {
+  text-decoration: none; }
+
+footer {
+  margin-top: 100px; }
+
+.container {
+  padding-top: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center; }
+
+h1 {
+  margin-bottom: 10px;
+  text-transform: uppercase; }
+
+.logo {
+  font-size: 30px;
+  font-weight: bold; }
+  .logo a {
+    color: green; }
+    .logo a:hover {
+      text-decoration: underline; }
+
+ul {
+  display: flex;
+  justify-content: center;
+  list-style: none; }
+  ul li a {
+    display: inline-block;
+    margin-bottom: 25px;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding: 5px;
+    color: #000;
+    font-size: 25px;
+    transition: .5s;
+    position: relative; }
+  ul li a:after {
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 0;
+    position: absolute;
+    background: green;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0%; }
+  ul li a:hover:after {
+    width: 100%;
+    left: 0; }
+  ul li .active {
+    position: relative; }
+    ul li .active:after {
+      width: 100%;
+      background: none repeat scroll 0 0 transparent;
+      bottom: 0;
+      content: "";
+      display: block;
+      height: 2px;
+      left: 0;
+      position: absolute;
+      background: green;
+      transition: width 0.3s ease 0s, left 0.3s ease 0s; }
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; }
+  .wrapper .item {
+    flex-basis: 30%;
+    margin-bottom: 25px; }
+    .wrapper .item__category {
+      margin-top: 10px;
+      color: gray; }
+
+form {
+  margin-bottom: 50px;
+  font-size: 25px; }
+  form input {
+    margin-bottom: 10px;
+    font-size: 25px; }
+  form button {
+    font-size: 25px;
+    padding: 5px 15px 5px 15px;
+    cursor: pointer; }
+  form label {
+    margin-right: 10px; }
+
+.alert-success {
+  font-size: 30px;
+  color: green; }
+
+/*# sourceMappingURL=style.css.map */
