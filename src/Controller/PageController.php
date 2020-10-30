@@ -17,7 +17,7 @@ class PageController extends AbstractController {
     /**
      * @Route("/", name="home")
      */
-    public function homeAction(EntityManagerInterface $em): Response { // TODO: differense home and home action ?
+    public function homeAction(EntityManagerInterface $em): Response {
         $articles = $em->getRepository(Article::class)->getAllArticles();
 
         return $this->render('pages/home.html.twig', [

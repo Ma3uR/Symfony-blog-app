@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Constants;
 use App\Form\Article\CreateArticleFormType;
 use App\Service\ArticleService;
-use App\Service\CategoryService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +24,7 @@ class ArticleController extends AbstractController {
 
         if (!$form->isSubmitted() || !$form->isValid()) {
             $this->addFlash('notice', 'Invalid form');
+
             return $this->render('article/create.html.twig', [
                 'form' => $form->createView()
             ]);
@@ -32,11 +32,10 @@ class ArticleController extends AbstractController {
         /**
          * @var $data array
          */
-        $data = $form->getData();
-        $category = $data['category'];
-        $author = $data['users'];
-        $articleService->createAndPersist($author,$data['title'], $data['desc'], $category);
-        $this->addFlash('success', 'Article: '. $data['title'] .' Created!✅');
+        $article = $form->getData();
+        $articleService->createAndPersist($article);
+        $enum = Constants::get(Constants::FLASHTYPE);
+        $this->addFlash($enum->getValue(), 'Article: «' . $article->getTitle() . '» Created!✅');
 
         return $this->redirect($this->generateUrl('home'));
     }

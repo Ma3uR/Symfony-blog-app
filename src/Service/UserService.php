@@ -16,8 +16,11 @@ class UserService {
         $this->appEnv = $appEnv;
     }
 
-    public function createAndPersist($username, $firstName, $lastName, $password): User {
-        $user = new User();
+    public function createAndPersist(User $user): User {
+        $username = $user->getUsername();
+        $firstName = $user->getFirstName();
+        $lastName = $user->getLastName();
+        $password = $user->getPassword();
         $user->setUsername($username)
             ->setFirstName($firstName)
             ->setLastName($lastName)

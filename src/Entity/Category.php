@@ -7,9 +7,13 @@ namespace App\Entity;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @UniqueEntity("title", message="This category title allready exist")
  */
 class Category {
     /**
@@ -21,6 +25,14 @@ class Category {
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your category title must be at least {{ limit }} characters long",
+     *      maxMessage = "Your category title cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      */
     private string $title;
 
@@ -49,17 +61,6 @@ class Category {
         if (!$this->articles->contains($article)) {
             $this->articles[] = $article;
             $article->setCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArticle(Article $article): self {
-        if ($this->articles->contains($article)) {
-            $this->articles->removeElement($article);
-            if ($article->getCategory() === $this) {
-                $article->setCategory(null);
-            }
         }
 
         return $this;

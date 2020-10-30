@@ -14,8 +14,8 @@ class CategoryService {
         $this->em = $em;
     }
 
-    public function createAndPersist($title): Category {
-        $category = new Category();
+    public function createAndPersist(Category $category): Category {
+        $title = $category->getTitle();
         $category->setTitle($title);
         $em = $this->em;
         $em->persist($category);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Constants;
 use App\Form\User\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,7 @@ class UserController extends AbstractController {
     /**
      * @Route("/registration", name="registration")
      */
-    public function registration(Request $request, UserService $userServicese): Response {
+    public function registration(Request $request, UserService $userService): Response {
         $form = $this->createForm(RegistrationFormType::class);
         $form->handleRequest($request);
 
@@ -29,13 +30,12 @@ class UserController extends AbstractController {
             ]);
         }
         /**
-         * @var $data array
+         * @var $user array
          */
-        $data = $form->getData();
-        $userServicese->createAndPersist($data['user_name'], $data['first_name'], $data['last_name'], $data['password']);
-        // TODO: move 'success' to some constant
-        // TODO: read about Enum and create enum FlashTypesEnum
-        $this->addFlash('success', 'User: ' . $data['user_name'] . ' Created!✅');
+        $user = $form->getData();
+        $userService->createAndPersist($user);
+        $enum = Constants::get(Constants::FLASHTYPE);
+        $this->addFlash($enum->getValue(), 'User: ' . $user->getUsername() . ' Created!✅');
 
         return $this->redirect($this->generateUrl('home'));
     }

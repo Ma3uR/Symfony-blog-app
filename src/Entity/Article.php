@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
@@ -20,31 +21,41 @@ class Article {
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 100,
+     *      minMessage = "Your title must be at least {{ limit }} characters long",
+     *      maxMessage = "Your title cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      */
     private string $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
      */
     private string $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private User $author;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=true)
+     * @Assert\NotBlank()
      */
     private ?Category $category;
 
-    //todo create constructor with required fields
-//
-//    public function __construct() {
-//        $this->author = $author;
-//    }
+    public function __construct() {
+        $author = new User();
+        $this->author = $author;
+    }
 
     public function getId(): ?int {
         return $this->id;
@@ -60,7 +71,7 @@ class Article {
         return $this;
     }
 
-    public function getDescription(): ?string {
+    public function getDescription(): string {
         return $this->description;
     }
 
@@ -70,11 +81,11 @@ class Article {
         return $this;
     }
 
-    public function getAuthor(): ?User {
+    public function getAuthor(): User {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self {
+    public function setAuthor(User $author): self {
         $this->author = $author;
 
         return $this;
