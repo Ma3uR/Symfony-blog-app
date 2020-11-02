@@ -5,35 +5,157 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
+            <link href="https://fonts.googleapis.com/css?family=Oxygen:300,400" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">
+            <!-- Animate.css -->
+            <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+            <!-- Icomoon Icon Fonts-->
+            <link rel="stylesheet" href="{{ asset('css/icomoon.css') }}">
+            <!-- Bootstrap  -->
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+            <!-- Magnific Popup -->
+            <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
+            <!-- Flexslider  -->
+            <link rel="stylesheet" href="{{ asset('css/flexslider.css') }}">
+            <!-- Theme style  -->
             <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
+            <!-- Modernizr JS -->
+            <script src="{{ asset('js/modernizr-2.6.2.min.js') }}"></script>
         {% endblock %}
     </head>
     <body>
-        <div class="container">
-            {% block body %}
-                <header>
-                        <div class="logo"><a href="{{ path('home') }}">DV</a></div>
-                            <nav>
-                                <ul>
-                                    <li><a class="{{ app.request.get('_route') == 'home' ? 'active' }}" href="{{ path('home') }}">Home</a></li>
-                                    <li><a class="{{ app.request.get('_route') == 'article_create' ? 'active' }}"  href="{{ path('article_create') }}">Create Article</a></li>
-                                    <li><a class="{{ app.request.get('_route') == 'category_create' ? 'active' }}"  href="{{ path('category_create') }}">Create Category</a></li>
-                                    <li><a class="{{ app.request.get('_route') == 'user_registration' ? 'active' }}"  href="{{ path('user_registration') }}">Registration</a></li>
-                                </ul>
-                            </nav>
-                        {% for message in app.flashes('success') %}
-                            <div class="alert alert-success">
-                                {{ message }}
+        {% block body %}
+        <div id="page">
+            <nav class="fh5co-nav" role="navigation">
+                <div class="container-wrap">
+                    <div class="top-menu">
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <div id="fh5co-logo"><a href="index.html">Default Value</a></div>
                             </div>
-                        {% endfor %}
-                </header>
-                    {% block content %}
+                            <div class="col-xs-10 text-right menu-1">
+                                <ul>
+                                    <li class="{{ app.request.get('_route') == 'home' ? 'active' }}"><a href="{{ path('home') }}">Home</a></li>
+                                    <li class="{{ app.request.get('_route') == 'article_create' ? 'active' }}"><a href="{{ path('article_create') }}">Create Article</a></li>
+                                    <li class="{{ app.request.get('_route') == 'category_create' ? 'active' }}"><a href="{{ path('category_create') }}">Create Category</a></li>
+                                    <li class="{{ app.request.get('_route') == 'user_registration' ? 'active' }}"><a href="{{ path('user_registration') }}">Registration</a></li>
+                                </ul>
+                            </div>
+                        </div>
 
-                    {% endblock %}
-                <footer>
-                        <h2> &copy; Default value</h2>
+                    </div>
+                </div>
+            </nav>
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <div class="container-wrap">
+                {% block aside %}
+                    <aside id="fh5co-hero">
+                        <div class="flexslider">
+                            <ul class="slides">
+                                <li style="background-image: url({{ asset('images/img_bg_3.jpg') }});">
+                                    <div class="overlay-gradient"></div>
+                                    <div class="container-fluids">
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-offset-3 slider-text slider-text-bg">
+                                                <div class="slider-text-inner text-center">
+                                                    <h1>Blog</h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </aside>
+                {% endblock %}
+
+                {% block content %}
+
+                {% endblock %}
+            </div><!-- END container-wrap -->
+
+            <div class="container-wrap">
+                <footer id="fh5co-footer" role="contentinfo">
+                    <div class="row">
+                        <div class="col-md-3 fh5co-widget">
+                            <h4>About Neat</h4>
+                            <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.</p>
+                        </div>
+                        <div class="col-md-3 col-md-push-1">
+                            <h4>Latest Posts</h4>
+                            <ul class="fh5co-footer-links">
+{#                                {% for a in latest %}#}
+{#                                <li><a href="#">{{ a.article_title }}</a></li>#}
+{#                                {% endfor %}#}
+                            </ul>
+                        </div>
+
+                        <div class="col-md-3 col-md-push-1">
+                            <h4>Links</h4>
+                            <ul class="fh5co-footer-links">
+                                <li><a href="{{ path('home') }}">Home</a></li>
+                                <li><a href="{{ path('article_create') }}">Create Article</a></li>
+                                <li><a href="{{ path('category_create') }}">Create Category</a></li>
+                                <li><a href="{{ path('user_registration') }}">Registration</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-md-3">
+                            <h4>Contact Information</h4>
+                            <ul class="fh5co-footer-links">
+                                <li>198 West 21th Street, <br> Suite 721 New York NY 10016</li>
+                                <li><a href="tel://1234567920">+ 1235 2355 98</a></li>
+                                <li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
+                                <li><a href="http://gettemplates.co">gettemplates.co</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="row copyright">
+                        <div class="col-md-12 text-center">
+                            <p>
+                                <small class="block">&copy; Default value</small>
+                            </p>
+                        </div>
+                    </div>
                 </footer>
-            {% endblock %}
+            </div><!-- END container-wrap -->
         </div>
+
+            <div class="gototop js-top">
+                <a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
+            </div>
+            <footer>
+                    <h2> </h2>
+            </footer>
+        </div>
+            {% endblock %}
+
+
+            {% block javascripts %}
+                <!-- jQuery -->
+                <script src="{{ asset('js/jquery.min.js') }}"></script>
+                <!-- jQuery Easing -->
+                <script src="{{ asset('js/jquery.easing.1.3.js') }}"></script>
+                <!-- Bootstrap -->
+                <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+                <!-- Waypoints -->
+                <script src="{{ asset('js/jquery.waypoints.min.js') }}"></script>
+                <!-- Flexslider -->
+                <script src="{{ asset('js/jquery.flexslider-min.js') }}"></script>
+                <!-- Magnific Popup -->
+                <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+                <script src="{{ asset('js/magnific-popup-options.js') }}"></script>
+                <!-- Counters -->
+                <script src="{{ asset('js/jquery.countTo.js') }}"></script>
+                <!-- Main -->
+                <script src="{{ asset('js/main.js') }}"></script>
+            {% endblock %}
     </body>
 </html>

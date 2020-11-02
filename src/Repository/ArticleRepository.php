@@ -14,13 +14,13 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Article[]    findAll()
  * @method Article[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ArticleRepository extends ServiceEntityRepository {
+class ArticleRepository extends ServiceEntityRepository
+{
     public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Article::class);
     }
 
-    public function getAllArticles(): array {
-
+    public function selectArticles(): \Doctrine\ORM\QueryBuilder {
         return $this->createQueryBuilder('a')
             ->select('a.id')
             ->addSelect("CONCAT(u.firstName,' ',u.lastName) AS full_name")
@@ -28,8 +28,21 @@ class ArticleRepository extends ServiceEntityRepository {
             ->addSelect('a.description')
             ->addSelect('c.title AS category_title')
             ->innerJoin('a.author', 'u')
-            ->innerJoin('a.category', 'c')
+            ->innerJoin('a.category', 'c');
+    }
+
+    public function getAllArticles(): array {
+
+        return $this->selectArticles()
             ->orderBy('a.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getLatest() {
+        return $this->selectArticles()
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(5)
             ->getQuery()
             ->getResult();
     }

@@ -14,8 +14,18 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Category[]    findAll()
  * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryRepository extends ServiceEntityRepository { // TODO: remove or use if some methods will appear
+class CategoryRepository extends ServiceEntityRepository {
     public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Category::class);
+    }
+
+    public function getAllCategory(): array {
+
+        return $this->createQueryBuilder('c')
+            ->select('c.id')
+            ->addSelect("c.title")
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

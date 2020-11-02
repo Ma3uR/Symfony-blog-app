@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Constants;
+use App\Entity\Article;
 use App\Form\Article\CreateArticleFormType;
 use App\Service\ArticleService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,4 +41,6 @@ class ArticleController extends AbstractController {
 
         return $this->redirect($this->generateUrl('home'));
     }
+
+
 }
