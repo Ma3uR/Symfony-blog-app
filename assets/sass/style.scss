@@ -424,6 +424,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 
 #fh5co-hero {
+	margin-bottom: 40px;
 	min-height: 500px;
 	background: $brand-white url(../../public/images/loader.gif) no-repeat center center;
 	width: 100%;
@@ -1086,9 +1087,10 @@ input[type="text"] {
 		padding: 0;
 		margin: 0;
 		li {
+			margin-bottom: 10px;
 			padding: 0;
-			margin: 0;
 			list-style: none;
+			font-size: 22px;
 			> ul {
 				padding-left: 20px;
 				display: none;
@@ -1485,4 +1487,61 @@ input[type="text"] {
 
 .alert-success {
 	text-align: center;
+}
+
+form {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	width: 50%;
+	margin: 0 auto;
+	text-align: center;
+	label {
+		display: none;
+	}
+	input {
+		margin-bottom: 10px;
+	}
+	li {
+		list-style: none;
+		color: red;
+	}
+	select {
+		margin-bottom: 10px;
+	}
+}
+
+.count-users {
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+.flex {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+
+	&--wrap {
+		-webkit-flex-wrap: wrap;
+		-moz-flex-wrap: wrap;
+		-ms-flex-wrap: wrap;
+		-o-flex-wrap: wrap;
+		flex-wrap: wrap;
+	}
+
+	&--center {
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		-ms-flex-align: center;
+		align-items: center;
+	}
+
+	&--between {
+		-webkit-box-pack: justify;
+		-moz-box-pack: justify;
+		-webkit-justify-content: space-between;
+		-ms-flex-pack: justify;
+		justify-content: space-between;
+	}
 }

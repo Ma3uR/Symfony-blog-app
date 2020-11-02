@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Home page{% endblock %}
+{% block page_title %}Home page{% endblock %}
+
 
 {% block aside %}
 
@@ -8,7 +10,7 @@
         <div class="flexslider">
             <ul class="slides">
                 {% for c in category %}
-                <li style="background-image: url(images/img_bg_1.jpg);">
+                <li style="background-image: url({{ asset('images/img_bg_1.jpg') }});">
                     <div class="overlay-gradient"></div>
                     <div class="container-fluid">
                         <div class="row">
@@ -33,7 +35,7 @@
     <div id="fh5co-blog">
         {% for a in articles %}
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-xl">
                     <div class="fh5co-blog animate-box">
                         <a href="#" class="blog-bg" style="background-image: url({{ asset('images/blog-1.jpg') }});"></a>
                         <div class="blog-text">

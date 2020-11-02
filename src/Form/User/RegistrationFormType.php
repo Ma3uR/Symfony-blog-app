@@ -14,14 +14,25 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationFormType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('user_name', TextType::class,
-            [
-                'label' => 'User name',
-            ])
-            ->add('first_name', TextType::class, ['label' => 'First Name'])
-            ->add('last_name', TextType::class, ['label' => 'Last name'])
-            ->add('password', PasswordType::class, ['label' => 'Password'])
-            ->add('send', SubmitType::class)
+        $builder->add('user_name', TextType::class, ['attr' => [
+                'class' => 'form-control',
+                'placeholder' => 'User name'
+            ]])
+            ->add('first_name', TextType::class, ['attr' => [
+                'class' => 'form-control',
+                'placeholder' => 'First name'
+            ]])
+            ->add('last_name', TextType::class, ['attr' => [
+                'class' => 'form-control',
+                'placeholder' => 'Last name'
+            ]])
+            ->add('password', PasswordType::class, ['attr' => [
+                'class' => 'form-control',
+                'placeholder' => 'Password'
+            ]])
+            ->add('send', SubmitType::class, ['attr' => [
+                'class' => 'btn btn-primary btn-modify'
+            ]])
             ->getForm();
     }
 

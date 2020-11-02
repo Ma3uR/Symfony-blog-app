@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Registration{% endblock %}
+{% block page_title %}
+    Registration <br>
+    <h2>Register on the site to be able to create articles</h2>
+{% endblock %}
 
 {% block content %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
-    <h2>Total users in app: {{ count_users() }}</h2>
+    <p class="count-users">Total users in app: {{ count_users() }}</p>
 {% endblock %}

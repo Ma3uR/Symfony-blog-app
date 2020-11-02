@@ -16,17 +16,32 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreateArticleFormType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('title', TextType::class, ['label' => 'Title'])
-            ->add('description', TextType::class, ['label' => 'Description'])
+        $builder->add('title', TextType::class, ['attr' => [
+            'class' => 'form-control',
+            'placeholder' => 'Title'
+        ]])
+            ->add('description', TextType::class, ['attr' => [
+                'class' => 'form-control',
+                'placeholder' => 'Description'
+            ]])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'getTitle'
-        ])
+                'choice_label' => 'getTitle',
+                'attr' => [
+                    'class' => 'form-control form-control-sm',
+                    'placeholder' => 'Category title'
+                ]])
             ->add('author', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'getUsername'
+                'choice_label' => 'getUsername',
+                'attr' => [
+                    'class' => 'form-control form-control-sm',
+                    'placeholder' => 'Category title'
+        ]
         ])
-            ->add('send', SubmitType::class)
+            ->add('send', SubmitType::class, ['attr' => [
+                'class' => 'btn btn-primary btn-modify'
+            ]])
             ->getForm();
     }
 

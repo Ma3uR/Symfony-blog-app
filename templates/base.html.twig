@@ -29,9 +29,9 @@
             <nav class="fh5co-nav" role="navigation">
                 <div class="container-wrap">
                     <div class="top-menu">
-                        <div class="row">
-                            <div class="col-xs-2">
-                                <div id="fh5co-logo"><a href="index.html">Default Value</a></div>
+                        <div class="row flex flex--center">
+                            <div class="col-xs">
+                                <div id="fh5co-logo"><a href="{{ path('home') }}">Default Value</a></div>
                             </div>
                             <div class="col-xs-10 text-right menu-1">
                                 <ul>
@@ -62,8 +62,8 @@
                                     <div class="container-fluids">
                                         <div class="row">
                                             <div class="col-md-6 col-md-offset-3 slider-text slider-text-bg">
-                                                <div class="slider-text-inner text-center">
-                                                    <h1>Blog</h1>
+                                                <div class="slider-text-inner">
+                                                    <h1>{% block page_title %}Blog{% endblock %}</h1>
                                                 </div>
                                             </div>
                                         </div>
@@ -83,7 +83,7 @@
                 <footer id="fh5co-footer" role="contentinfo">
                     <div class="row">
                         <div class="col-md-3 fh5co-widget">
-                            <h4>About Neat</h4>
+                            <h4>About Default Value</h4>
                             <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.</p>
                         </div>
                         <div class="col-md-3 col-md-push-1">

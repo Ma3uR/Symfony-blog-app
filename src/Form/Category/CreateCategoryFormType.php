@@ -13,8 +13,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreateCategoryFormType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('title', TextType::class, ['label' => 'Category title'])
-            ->add('send', SubmitType::class)
+        $builder->add('title', TextType::class, ['attr' => [
+            'class' => 'form-control',
+            'placeholder' => 'Category title'
+        ]])
+            ->add('Create', SubmitType::class, ['attr' => [
+            'class' => 'btn btn-primary btn-modify'
+        ]])
             ->getForm();
     }
 

@@ -7,9 +7,9 @@ gulp.task('default', async function() {
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('assets/css'));
+        .pipe(gulp.dest('public/css'));
 });
 
 gulp.task('watch', function() {
-    gulp.watch('public/assets/sass/**/*.scss', gulp.series('default'));
+    gulp.watch('public/sass/**/*.scss', gulp.series('default'));
 });
