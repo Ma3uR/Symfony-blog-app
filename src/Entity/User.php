@@ -37,7 +37,7 @@ class User {
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
-     * * @Assert\Length(
+     * @Assert\Length(
      *      min = 2,
      *      max = 30,
      *      minMessage = "Your first name must be at least {{ limit }} characters long",
@@ -45,11 +45,11 @@ class User {
      *      allowEmptyString = false
      * )
      */
-    private ?string $firstName;
+    private string $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * * @Assert\Length(
+     * @Assert\Length(
      *      min = 2,
      *      max = 30,
      *      minMessage = "Your last name must be at least {{ limit }} characters long",
@@ -62,7 +62,7 @@ class User {
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
-     * * @Assert\Length(
+     * @Assert\Length(
      *      min = 8,
      *      max = 32,
      *      minMessage = "Your user name must be at least {{ limit }} characters long",
@@ -73,7 +73,6 @@ class User {
     private string $password;
 
     /**
-     * TODO: it is big bug
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="author")
      */
     private Collection $articles;

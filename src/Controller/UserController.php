@@ -24,6 +24,7 @@ class UserController extends AbstractController {
         $form->handleRequest($request);
 
         if (!$form->isSubmitted() || !$form->isValid()) {
+            // todo: remove
             $this->addFlash('notice', 'Invalid form');
             return $this->render('user/registration.html.twig', [
                 'form' => $form->createView()
@@ -34,7 +35,7 @@ class UserController extends AbstractController {
          */
         $user = $form->getData();
         $userService->createAndPersist($user);
-        $enum = Constants::get(Constants::FLASHTYPE);
+        $enum = Constants::get(Constants::FLASHTYPE); // TODO simplify
         $this->addFlash($enum->getValue(), 'User: ' . $user->getUsername() . ' Created!✅');
 
         return $this->redirect($this->generateUrl('home'));

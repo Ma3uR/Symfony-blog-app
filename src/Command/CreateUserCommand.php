@@ -48,6 +48,7 @@ class CreateUserCommand extends Command {
             return $password;
         });
 
+        // TODO: fix logic
         $user = new User();
         $user->setUsername("$firstName$lastName");
         $user->setFirstName($firstName);

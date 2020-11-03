@@ -6,6 +6,7 @@ namespace App;
 
 use Elao\Enum\Enum;
 
+// TODO: naming fix
 final class Constants extends Enum {
     const FLASHTYPE = 'success';
 

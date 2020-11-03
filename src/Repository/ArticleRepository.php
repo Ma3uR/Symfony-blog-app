@@ -20,6 +20,7 @@ class ArticleRepository extends ServiceEntityRepository {
     }
 
     public function getAllArticles(): array {
+        echo 'asdasd';
 
         return $this->createQueryBuilder('a')
             ->select('a.id')

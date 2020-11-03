@@ -49,10 +49,12 @@ class Article {
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=true)
      * @Assert\NotBlank()
+     * TODO: null or not?
      */
     private ?Category $category;
 
     public function __construct() {
+        // TODO: fix
         $author = new User();
         $this->author = $author;
     }

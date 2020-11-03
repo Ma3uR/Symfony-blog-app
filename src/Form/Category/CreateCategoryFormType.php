@@ -20,8 +20,7 @@ class CreateCategoryFormType extends AbstractType {
 
     public function configureOptions(OptionsResolver $resolver): void {
         $resolver->setDefaults([
-            'data_class' => Category::class,
-            'empty_data' => new Category()
+            'data_class' => Category::class
         ]);
     }
 }

@@ -13,22 +13,18 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationFormType extends AbstractType {
-   use App\Entity\Category; public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('user_name', TextType::class,
-            [
-                'label' => 'User name',
-            ])
+   public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder->add('user_name', TextType::class, ['label' => 'User name',])
             ->add('first_name', TextType::class, ['label' => 'First Name'])
             ->add('last_name', TextType::class, ['label' => 'Last name'])
-            ->add('password', PasswordType::class, ['label' => 'Password'])
+            ->add('password', PasswordType::class, ['label' => 'Password']) // TODO: repeate password
             ->add('send', SubmitType::class)
             ->getForm();
     }
 
     public function configureOptions(OptionsResolver $resolver): void {
         $resolver->setDefaults([
-            'data_class' => User::class,
-            'empty_data' => new User()
+            'data_class' => User::class
         ]);
     }
 }

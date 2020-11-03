@@ -16,6 +16,7 @@ class UserService {
         $this->appEnv = $appEnv;
     }
 
+    // TODO: fix logic
     public function createAndPersist(User $user): User {
         $username = $user->getUsername();
         $firstName = $user->getFirstName();

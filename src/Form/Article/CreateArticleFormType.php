@@ -24,7 +24,10 @@ class CreateArticleFormType extends AbstractType {
         ])
             ->add('author', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'getUsername'
+                'choice_label' => 'getUsername',
+                'row_attr' => [
+                    'class' => 'test'
+                ]
         ])
             ->add('send', SubmitType::class)
             ->getForm();
@@ -32,8 +35,7 @@ class CreateArticleFormType extends AbstractType {
 
     public function configureOptions(OptionsResolver $resolver): void {
         $resolver->setDefaults([
-            'data_class' => Article::class,
-            'empty_data' => new Article()
+            'data_class' => Article::class
         ]);
     }
 }
