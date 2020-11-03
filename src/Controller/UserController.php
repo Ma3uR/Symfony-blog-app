@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Constants;
+use App\flashtypes;
+use App\Entity\User;
 use App\Form\User\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,19 +25,16 @@ class UserController extends AbstractController {
         $form->handleRequest($request);
 
         if (!$form->isSubmitted() || !$form->isValid()) {
-            // todo: remove
-            $this->addFlash('notice', 'Invalid form');
             return $this->render('user/registration.html.twig', [
                 'form' => $form->createView()
             ]);
         }
         /**
-         * @var $user array
+         * @var $user User
          */
         $user = $form->getData();
-        $userService->createAndPersist($user);
-        $enum = Constants::get(Constants::FLASHTYPE); // TODO simplify
-        $this->addFlash($enum->getValue(), 'User: ' . $user->getUsername() . ' Created!✅');
+        $userService->persistAndFlush($user);
+        $this->addFlash(flashtypes::FLASHTYPE, 'User: ' . $user->getUsername() . ' Created!✅');
 
         return $this->redirect($this->generateUrl('home'));
     }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Article;
-use App\Entity\User;
+use App\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ArticleService {
@@ -14,12 +14,9 @@ class ArticleService {
     public function __construct(EntityManagerInterface $em) {
         $this->em = $em;
     }
-    public function createAndPersist(Article $article): void {
-        // TODO: fix
-        $author = $article->getAuthor();
-        $title = $article->getTitle();
-        $description = $article->getDescription();
-        $category = $article->getCategory();
+
+    public function createAndPersist($author, string $title, string $description, Category $category): void {
+        $article = new Article();
         $article->setAuthor($author)
             ->setTitle($title)
             ->setDescription($description)
@@ -29,5 +26,11 @@ class ArticleService {
         $em->flush();
     }
 
-    //TODO: persistArticle
+    public function persistAndFlush(Article $article): Article {
+        $em = $this->em;
+        $em->persist($article);
+        $em->flush();
+
+        return $article;
+    }
 }

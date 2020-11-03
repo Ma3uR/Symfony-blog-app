@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Constants;
+use App\flashtypes;
 use App\Entity\Article;
 use App\Form\Article\CreateArticleFormType;
 use App\Service\ArticleService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,25 +24,18 @@ class ArticleController extends AbstractController {
 
         $form->handleRequest($request);
         if (!$form->isSubmitted() || !$form->isValid()) {
-            // TODO: remove
-            $this->addFlash('notice', 'Invalid form');
-
             return $this->render('article/create.html.twig', [
                 'form' => $form->createView()
             ]);
         }
         /**
-         * TODO: fix
-         * @var $data array
+         * @var $article Article
          */
         $article = $form->getData();
-        // TODO: call new method in article service
-        $articleService->createAndPersist($article);
-
-        $this->addFlash(Constants::FLASHTYPE, 'Article: «' . $article->getTitle() . '» Created!✅');
+        $articleService->persistAndFlush($article);
+        $this->addFlash(flashtypes::FLASHTYPE, 'Article: «' . $article->getTitle() . '» Created!✅');
 
         return $this->redirect($this->generateUrl('home'));
     }
-
 
 }

@@ -6,8 +6,7 @@ namespace App;
 
 use Elao\Enum\Enum;
 
-// TODO: naming fix
-final class Constants extends Enum {
+final class flashtypes extends Enum {
     const FLASHTYPE = 'success';
 
     public static function values(): array {

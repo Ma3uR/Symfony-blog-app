@@ -16,16 +16,7 @@ class UserService {
         $this->appEnv = $appEnv;
     }
 
-    // TODO: fix logic
-    public function createAndPersist(User $user): User {
-        $username = $user->getUsername();
-        $firstName = $user->getFirstName();
-        $lastName = $user->getLastName();
-        $password = $user->getPassword();
-        $user->setUsername($username)
-            ->setFirstName($firstName)
-            ->setLastName($lastName)
-            ->setPassword($password);
+    public function persistAndFlush(User $user): User {
         $em = $this->em;
         $em->persist($user);
         $em->flush();

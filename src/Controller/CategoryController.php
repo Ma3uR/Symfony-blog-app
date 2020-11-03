@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Constants;
+use App\flashtypes;
 use App\Form\Category\CreateCategoryFormType;
 use App\Service\CategoryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,8 +29,7 @@ class CategoryController extends AbstractController {
 
         $category = $form->getData();
         $categoryService->createAndPersist($category);
-        $enum = Constants::get(Constants::FLASHTYPE);
-        $this->addFlash($enum->getValue(), 'Category «' . $category->getTitle() . '» created');
+        $this->addFlash(flashtypes::FLASHTYPE, 'Category «' . $category->getTitle() . '» created');
 
         return $this->redirect($this->generateUrl('home'));
     }

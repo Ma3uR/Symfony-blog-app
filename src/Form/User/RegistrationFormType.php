@@ -7,6 +7,7 @@ namespace App\Form\User;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,10 +27,23 @@ class RegistrationFormType extends AbstractType {
                 'class' => 'form-control',
                 'placeholder' => 'Last name'
             ]])
-            ->add('password', PasswordType::class, ['attr' => [
-                'class' => 'form-control',
-                'placeholder' => 'Password'
-            ]]) // TODO: repeate password
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'The password fields must match.',
+                'required' => true,
+                'first_options'  => [
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Password'
+                    ]
+                ],
+                'second_options' => [
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Repeat password'
+
+                ]]
+            ])
             ->add('send', SubmitType::class, ['attr' => [
                 'class' => 'btn btn-primary btn-modify'
             ]])

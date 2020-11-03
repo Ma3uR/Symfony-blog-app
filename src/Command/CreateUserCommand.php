@@ -24,6 +24,14 @@ class CreateUserCommand extends Command {
     protected function execute(InputInterface $input, OutputInterface $output): int {
         $io = new SymfonyStyle($input, $output);
 
+        $username = $io->ask('Your user name', '', function ($name) {
+            if (empty($name)) {
+                throw new RuntimeException('You must type a user name.');
+            }
+
+            return $name;
+        });
+
         $firstName = $io->ask('Your first name', '', function ($name) {
             if (empty($name)) {
                 throw new RuntimeException('You must type a first name.');
@@ -48,16 +56,13 @@ class CreateUserCommand extends Command {
             return $password;
         });
 
-        // TODO: fix logic
         $user = new User();
-        $user->setUsername("$firstName$lastName");
+        $user->setUsername($username);
         $user->setFirstName($firstName);
         $user->setLastName($lastName);
         $user->setPassword($password);
-
-        $username = "$firstName$lastName";
         $io->title('============ Creating user ============');
-        $this->userService->createAndPersist($user);
+        $this->userService->persistAndFlush($user);
         $io->section('Generating the user');
         $io->horizontalTable(
             ['Username', 'First Name', 'Last Name'],
