@@ -29,7 +29,7 @@ class RegistrationFormType extends AbstractType {
             ->add('password', PasswordType::class, ['attr' => [
                 'class' => 'form-control',
                 'placeholder' => 'Password'
-            ]])
+            ]]) // TODO: repeate password
             ->add('send', SubmitType::class, ['attr' => [
                 'class' => 'btn btn-primary btn-modify'
             ]])
@@ -38,8 +38,7 @@ class RegistrationFormType extends AbstractType {
 
     public function configureOptions(OptionsResolver $resolver): void {
         $resolver->setDefaults([
-            'data_class' => User::class,
-            'empty_data' => new User()
+            'data_class' => User::class
         ]);
     }
 }

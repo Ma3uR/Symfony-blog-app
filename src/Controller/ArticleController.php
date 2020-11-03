@@ -22,9 +22,10 @@ class ArticleController extends AbstractController {
      */
     public function create(Request $request, ArticleService $articleService): Response {
         $form = $this->createForm(CreateArticleFormType::class);
-        $form->handleRequest($request);
 
+        $form->handleRequest($request);
         if (!$form->isSubmitted() || !$form->isValid()) {
+            // TODO: remove
             $this->addFlash('notice', 'Invalid form');
 
             return $this->render('article/create.html.twig', [
@@ -32,12 +33,14 @@ class ArticleController extends AbstractController {
             ]);
         }
         /**
+         * TODO: fix
          * @var $data array
          */
         $article = $form->getData();
+        // TODO: call new method in article service
         $articleService->createAndPersist($article);
-        $enum = Constants::get(Constants::FLASHTYPE);
-        $this->addFlash($enum->getValue(), 'Article: «' . $article->getTitle() . '» Created!✅');
+
+        $this->addFlash(Constants::FLASHTYPE, 'Article: «' . $article->getTitle() . '» Created!✅');
 
         return $this->redirect($this->generateUrl('home'));
     }

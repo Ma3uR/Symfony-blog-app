@@ -47,8 +47,7 @@ class CreateArticleFormType extends AbstractType {
 
     public function configureOptions(OptionsResolver $resolver): void {
         $resolver->setDefaults([
-            'data_class' => Article::class,
-            'empty_data' => new Article()
+            'data_class' => Article::class
         ]);
     }
 }
