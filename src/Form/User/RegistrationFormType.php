@@ -16,9 +16,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class RegistrationFormType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('user_name', TextType::class, ['attr' => [
-                'class' => 'form-control',
-                'placeholder' => 'User name'
-            ]])
+            'class' => 'form-control',
+            'placeholder' => 'User name'
+        ]])
             ->add('first_name', TextType::class, ['attr' => [
                 'class' => 'form-control',
                 'placeholder' => 'First name'
@@ -27,11 +27,11 @@ class RegistrationFormType extends AbstractType {
                 'class' => 'form-control',
                 'placeholder' => 'Last name'
             ]])
-            ->add('password', RepeatedType::class, [
+            ->add('plain_password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'required' => true,
-                'first_options'  => [
+                'first_options' => [
                     'attr' => [
                         'class' => 'form-control',
                         'placeholder' => 'Password'
@@ -42,7 +42,7 @@ class RegistrationFormType extends AbstractType {
                         'class' => 'form-control',
                         'placeholder' => 'Repeat password'
 
-                ]]
+                    ]]
             ])
             ->add('send', SubmitType::class, ['attr' => [
                 'class' => 'btn btn-primary btn-modify'

@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
  * @UniqueEntity("username", message="This username allready exist")
  */
-class User {
+class User implements UserInterface, Serializable {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -61,10 +64,9 @@ class User {
 
     /**
      * @ORM\Column(type="string", nullable=false)
-     * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 8,
-     *      max = 32,
+     *      max = 255,
      *      minMessage = "Your user name must be at least {{ limit }} characters long",
      *      maxMessage = "Your user name cannot be longer than {{ limit }} characters",
      *      allowEmptyString = false
@@ -77,8 +79,19 @@ class User {
      */
     private Collection $articles;
 
-    public function __construct()
-    {
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 255,
+     *      minMessage = "Your password must be at least {{ limit }} characters long",
+     *      maxMessage = "Your password cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
+     */
+    private string $plainPassword;
+
+    public function __construct() {
         $this->articles = new ArrayCollection();
     }
 
@@ -116,6 +129,14 @@ class User {
         return $this;
     }
 
+    public function getPlainPassword(): string {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password): void {
+        $this->plainPassword = $password;
+    }
+
     public function getPassword(): string {
         return $this->password;
     }
@@ -141,4 +162,35 @@ class User {
 
         return $this;
     }
+
+    public function getSalt() {
+
+    }
+
+    public function getRoles() {
+        return [
+            'ROLE_USER'
+        ];
+    }
+
+    public function eraseCredentials() {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function serialize() {
+        return serialize([
+            $this->id,
+            $this->username,
+            $this->password
+        ]);
+    }
+
+    public function unserialize($serialized) {
+        [
+            $this->id,
+            $this->username,
+            $this->password
+        ] = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
 }

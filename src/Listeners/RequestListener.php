@@ -9,8 +9,8 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class RequestListener {
 
-    public function __construct(LoggerInterface $logger) {
-        $this->logger = $logger;
+    public function __construct(LoggerInterface $homeChannelLogger) {
+        $this->logger = $homeChannelLogger;
     }
 
     public function onRequest(RequestEvent $event): void {
@@ -18,7 +18,7 @@ class RequestListener {
         $userAgent = $request->headers->get('User-Agent');
         if ($request->get('_route') === 'home') {
 
-            $this->logger->info(sprintf('User agent:'. $userAgent));
+            $this->logger->info(sprintf('User agent:' . $userAgent));
         }
     }
 }

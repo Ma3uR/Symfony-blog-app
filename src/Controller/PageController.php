@@ -33,11 +33,4 @@ class PageController extends AbstractController {
             'category' => $category
         ]);
     }
-
-    public function getLatestPost(EntityManagerInterface $em): Response {
-        $articles = $em->getRepository(Article::class)->getLatest();
-        return $this->render('base.html.twig', [
-            'latest' => $articles
-        ]);
-    }
 }

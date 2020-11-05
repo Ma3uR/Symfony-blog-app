@@ -38,6 +38,4 @@ services:
     App\Listeners\RequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onRequest }
-        arguments:
-            $logger: '@monolog.logger.home_channel'
 

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\flashtypes;
+use App\Enum\Flashtypes;
 use App\Entity\Article;
 use App\Form\Article\CreateArticleFormType;
 use App\Service\ArticleService;
@@ -33,7 +33,7 @@ class ArticleController extends AbstractController {
          */
         $article = $form->getData();
         $articleService->persistAndFlush($article);
-        $this->addFlash(flashtypes::FLASHTYPE, 'Article: «' . $article->getTitle() . '» Created!✅');
+        $this->addFlash(Flashtypes::FLASHTYPE, 'Article: «' . $article->getTitle() . '» Created!✅');
 
         return $this->redirect($this->generateUrl('home'));
     }

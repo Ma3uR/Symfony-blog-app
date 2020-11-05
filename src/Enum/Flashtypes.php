@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Enum;
 
 use Elao\Enum\Enum;
 
-final class flashtypes extends Enum {
+final class Flashtypes extends Enum {
     const FLASHTYPE = 'success';
 
     public static function values(): array {
