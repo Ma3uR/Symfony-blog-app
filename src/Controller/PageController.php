@@ -6,15 +6,10 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Category;
-use App\Events\Events;
-use App\Events\RequestEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Twig\Environment;
 
 /**
 * This controller for all static pages without entities
@@ -25,7 +20,7 @@ class PageController extends AbstractController {
      * @Route("/", name="home")
      */
     public function homeAction(EntityManagerInterface $em): Response {
-        $articles = $em->getRepository(Article::class)->getAllArticles();
+        $articles = $em->getRepository(Article::class)->findAll();
         $category = $em->getRepository(Category::class)->getAllCategory();
 
         return $this->render('pages/home.html.twig', [

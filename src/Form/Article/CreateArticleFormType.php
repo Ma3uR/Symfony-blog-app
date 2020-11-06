@@ -6,7 +6,6 @@ namespace App\Form\Article;
 
 use App\Entity\Article;
 use App\Entity\Category;
-use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -31,14 +30,6 @@ class CreateArticleFormType extends AbstractType {
                     'class' => 'form-control form-control-sm',
                     'placeholder' => 'Category title'
                 ]])
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'getUsername',
-                'attr' => [
-                    'class' => 'form-control form-control-sm',
-                    'placeholder' => 'Category title'
-        ]
-        ])
             ->add('send', SubmitType::class, ['attr' => [
                 'class' => 'btn btn-primary btn-modify'
             ]])

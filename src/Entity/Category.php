@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  * @UniqueEntity("title", message="This category title allready exist")
@@ -43,7 +42,6 @@ class Category {
     public function __construct() {
         $this->articles = new ArrayCollection();
     }
-
 
     public function getId(): int {
         return $this->id;

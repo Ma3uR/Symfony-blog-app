@@ -27,6 +27,11 @@
 {% block body %}
     <div id="page">
         <nav class="fh5co-nav" role="navigation">
+            <div class="container">
+{#                {% if app.user.username %}#}
+{#                    <p>Login as: {{ app.user.username }}</p>#}
+{#                {% endif %}#}
+            </div>
             <div class="container-wrap">
                 <div class="top-menu">
                     <div class="row flex flex--center">
@@ -37,16 +42,22 @@
                             <ul>
                                 <li class="{{ app.request.get('_route') == 'home' ? 'active' }}"><a
                                             href="{{ path('home') }}">Home</a></li>
-                                <li class="{{ app.request.get('_route') == 'article_create' ? 'active' }}"><a
-                                            href="{{ path('article_create') }}">Create Article</a></li>
-                                <li class="{{ app.request.get('_route') == 'category_create' ? 'active' }}"><a
-                                            href="{{ path('category_create') }}">Create Category</a></li>
-                                <li class="{{ app.request.get('_route') == 'user_registration' ? 'active' }}"><a
-                                            href="{{ path('user_registration') }}">Registration</a></li>
+                                {% if app.user %}
+                                    <li class="{{ app.request.get('_route') == 'article_create' ? 'active' }}"><a
+                                                href="{{ path('article_create') }}">Create Article</a></li>
+                                    <li class="{{ app.request.get('_route') == 'category_create' ? 'active' }}"><a
+                                                href="{{ path('category_create') }}">Create Category</a></li>
+                                    <li class="{{ app.request.get('_route') == 'login' ? 'active' }}"><a
+                                                href="{{ path('logout') }}">Logout</a></li>
+                                {% else %}
+                                    <li class="{{ app.request.get('_route') == 'user_registration' ? 'active' }}"><a
+                                                href="{{ path('user_registration') }}">Registration</a></li>
+                                    <li class="{{ app.request.get('_route') == 'login' ? 'active' }}"><a
+                                                href="{{ path('login') }}">Login</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
-
                 </div>
             </div>
         </nav>
@@ -94,22 +105,32 @@
                     <div class="col-md-3 col-md-push-1">
                         <h4>Latest Posts</h4>
                         <ul class="fh5co-footer-links">
-                             {% for a in getLatestPosts() %}
+                            {% for a in getLatestPosts() %}
                                 <li><a href="#">{{ a.article_title }}</a></li>
-                             {% endfor %}
+                            {% endfor %}
                         </ul>
                     </div>
 
                     <div class="col-md-3 col-md-push-1">
                         <h4>Links</h4>
                         <ul class="fh5co-footer-links">
-                            <li><a href="{{ path('home') }}">Home</a></li>
-                            <li><a href="{{ path('article_create') }}">Create Article</a></li>
-                            <li><a href="{{ path('category_create') }}">Create Category</a></li>
-                            <li><a href="{{ path('user_registration') }}">Registration</a></li>
+                            <li class="{{ app.request.get('_route') == 'home' ? 'active' }}"><a
+                                        href="{{ path('home') }}">Home</a></li>
+                            {% if app.user %}
+                                <li class="{{ app.request.get('_route') == 'article_create' ? 'active' }}"><a
+                                            href="{{ path('article_create') }}">Create Article</a></li>
+                                <li class="{{ app.request.get('_route') == 'category_create' ? 'active' }}"><a
+                                            href="{{ path('category_create') }}">Create Category</a></li>
+                                <li class="{{ app.request.get('_route') == 'login' ? 'active' }}"><a
+                                            href="{{ path('logout') }}">Logout</a></li>
+                            {% else %}
+                                <li class="{{ app.request.get('_route') == 'user_registration' ? 'active' }}"><a
+                                            href="{{ path('user_registration') }}">Registration</a></li>
+                                <li class="{{ app.request.get('_route') == 'login' ? 'active' }}"><a
+                                            href="{{ path('login') }}">Login</a></li>
+                            {% endif %}
                         </ul>
                     </div>
-
                     <div class="col-md-3">
                         <h4>Contact Information</h4>
                         <ul class="fh5co-footer-links">

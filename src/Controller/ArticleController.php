@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Enum\Flashtypes;
 use App\Entity\Article;
 use App\Form\Article\CreateArticleFormType;
@@ -28,14 +29,26 @@ class ArticleController extends AbstractController {
                 'form' => $form->createView()
             ]);
         }
-        /**
-         * @var $article Article
-         */
+        /** @var $article Article */
         $article = $form->getData();
+
+        /** @var User $user */
+        $user = $this->getUser();
+        $article->setAuthor($user);
         $articleService->persistAndFlush($article);
         $this->addFlash(Flashtypes::FLASHTYPE, 'Article: «' . $article->getTitle() . '» Created!✅');
 
         return $this->redirect($this->generateUrl('home'));
     }
 
+    /**
+     * @Route ("/{id}/edit", name="edit")
+     */
+    public function edit(Article $article): Response {
+        $this->denyAccessUnlessGranted('edit', $article);
+
+        return $this->render('article/edit.html.twig', [
+            $article
+        ]);
+    }
 }

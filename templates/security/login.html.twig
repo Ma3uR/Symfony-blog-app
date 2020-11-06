@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Log in!{% endblock %}
-
-{% block body %}
+{% block page_title %}
+    Login <br>
+    <h2>If you dont have any account - <a href="{{ path('user_registration') }}"> Register </a></h2>
+{% endblock %}
+{% block content %}
     <form method="post">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -25,3 +28,4 @@
         </button>
     </form>
 {% endblock %}
+

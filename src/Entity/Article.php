@@ -41,7 +41,6 @@ class Article {
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank()
      */
     private User $author;
 
@@ -51,9 +50,9 @@ class Article {
      */
     private ?Category $category;
 
-    public function __construct(User $author) {
-        $this->author = $author;
-    }
+//    public function __construct(User $author) {
+//        $this->author = $author;
+//    }
 
     public function getId(): ?int {
         return $this->id;
