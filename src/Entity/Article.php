@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  */
-class Article {
+class Article implements \JsonSerializable {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -35,6 +35,13 @@ class Article {
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      * @Assert\NotBlank()
+     * * @Assert\Length(
+     *      min = 5,
+     *      max = 255,
+     *      minMessage = "Your desctription must be at least {{ limit }} characters long",
+     *      maxMessage = "Your desctription cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      */
     private string $description;
 
@@ -50,7 +57,7 @@ class Article {
      */
     private ?Category $category;
 
-//    public function __construct(User $author) {
+//    public function __construct(User $author) { todo Cannot find whats wrong with this constructor
 //        $this->author = $author;
 //    }
 
@@ -96,5 +103,12 @@ class Article {
         $this->category = $category;
 
         return $this;
+    }
+
+    public function jsonSerialize(): array {
+        return [
+            "title" => $this->getTitle(),
+            "description" => $this->getDescription()
+        ];
     }
 }

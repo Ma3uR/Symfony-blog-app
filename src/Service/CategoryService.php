@@ -23,4 +23,10 @@ class CategoryService {
 
         return $category;
     }
+
+    public function persistAndFlush(Category $category) {
+        $em = $this->em;
+        $em->persist($category);
+        $em->flush();
+    }
 }

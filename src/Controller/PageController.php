@@ -14,7 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
 * This controller for all static pages without entities
  */
-
 class PageController extends AbstractController {
     /**
      * @Route("/", name="home")

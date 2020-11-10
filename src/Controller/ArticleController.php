@@ -48,7 +48,17 @@ class ArticleController extends AbstractController {
         $this->denyAccessUnlessGranted('edit', $article);
 
         return $this->render('article/edit.html.twig', [
-            $article
+            'article' => $article
         ]);
+    }
+
+    /**
+     * @Route ("/{id}", name="viewSingle")
+     */
+    public function viewSingle(Article  $article) {
+        return $this->render('article/single.html.twig', [
+            'article' => $article
+        ]);
+
     }
 }

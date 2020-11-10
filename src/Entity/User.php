@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -33,6 +34,7 @@ class User implements UserInterface, Serializable {
      *      maxMessage = "Your user name cannot be longer than {{ limit }} characters",
      *      allowEmptyString = false
      * )
+     * @Groups("main")
      */
     private string $username;
 
@@ -46,6 +48,7 @@ class User implements UserInterface, Serializable {
      *      maxMessage = "Your first name cannot be longer than {{ limit }} characters",
      *      allowEmptyString = false
      * )
+     * @Groups("main")
      */
     private string $firstName;
 
@@ -58,6 +61,7 @@ class User implements UserInterface, Serializable {
      *      maxMessage = "Your last name cannot be longer than {{ limit }} characters",
      *      allowEmptyString = false
      * )
+     * @Groups("main")
      */
     private ?string $lastName;
 
@@ -90,8 +94,14 @@ class User implements UserInterface, Serializable {
      */
     private string $plainPassword;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ApiToken::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $apiTokens;
+
     public function __construct() {
         $this->articles = new ArrayCollection();
+        $this->apiTokens = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -192,4 +202,19 @@ class User implements UserInterface, Serializable {
         ] = unserialize($serialized, ['allowed_classes' => false]);
     }
 
+    /**
+     * @return Collection|ApiToken[]
+     */
+    public function getApiTokens(): Collection
+    {
+        return $this->apiTokens;
+    }
+
+    public function addApiToken(ApiToken $apiToken): User
+    {
+        if (!$this->apiTokens->contains($apiToken)) {
+            $this->apiTokens[] = $apiToken;
+        }
+        return $this;
+    }
 }

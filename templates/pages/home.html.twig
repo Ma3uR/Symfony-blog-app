@@ -36,7 +36,7 @@
                         <a href="#" class="blog-bg" style="background-image: url({{ asset('images/blog-1.jpg') }});"></a>
                         <div class="blog-text">
                             <span class="posted_on">Category: {{ article.category.title }}</span>
-                            <h3><a href="#">{{ article.title }}</a></h3>
+                            <h3><a href="{{ path('article_viewSingle', {'id': article.id }) }}">{{ article.title }}</a></h3>
                             <p>{{ article.description }}</p>
                             {% if app.user == article.author %}
                                 <ul class="stuff">
@@ -44,7 +44,7 @@
                                 </ul>
                             {% endif %}
                             <ul class="stuff">
-                                <li><a href="#">Read More<i class="icon-arrow-right22"></i></a></li>
+                                <li><a href="{{ path('article_viewSingle', {'id': article.id }) }}">Read More<i class="icon-arrow-right22"></i></a></li>
                             </ul>
                         </div>
                     </div>
