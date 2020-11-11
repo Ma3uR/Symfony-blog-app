@@ -23,7 +23,7 @@ class UserController extends AbstractController {
     /**
      * @Route("/registration", name="registration")
      */
-    public function registration(Request $request, UserService $userService, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em): Response {
+    public function registration(Request $request, UserService $userService, EntityManagerInterface $em): Response {
         $form = $this->createForm(RegistrationFormType::class);
         $form->handleRequest($request);
 
@@ -36,12 +36,6 @@ class UserController extends AbstractController {
          * @var $user User
          */
         $user = $form->getData();
-        $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-        $user->setPassword($password);
-        $apiToken = new ApiToken($user);
-        $apiToken2 = new ApiToken($user);
-        $em->persist($apiToken);
-        $em->persist($apiToken2);
         $userService->persistAndFlush($user);
         $this->addFlash(Flashtypes::FLASHTYPE, 'User: ' . $user->getUsername() . ' Created!✅');
 

@@ -57,7 +57,7 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator {
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey) {
-        // todo
+        return null;
     }
 
     public function start(Request $request, AuthenticationException $authException = null) {

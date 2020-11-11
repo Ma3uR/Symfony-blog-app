@@ -6,6 +6,7 @@ namespace App\Controller\Api;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,26 +32,21 @@ class UserController {
      */
     public function addUser(
         Request $request,
-        EntityManagerInterface $em,
+        UserService $userService,
         UserPasswordEncoderInterface $passwordEncoder,
         ValidatorInterface $validator
     ): JsonResponse {
         $request = $this->transformJsonBody($request);
         $user = new User();
-
         $user->setUsername($request->request->get('username'));
         $user->setFirstName($request->request->get('first-name'));
         $user->setLastName($request->request->get('last-name'));
         $user->setPlainPassword($request->request->get('password'));
-        $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-        $user->setPassword($password);
-
         $errors = $validator->validate($user);
         if (count($errors) > 0) {
             throw new \RuntimeException('Invalid data, username already exists or password cannot be less than 8 characters');
         }
-        $em->persist($user);
-        $em->flush();
+        $userService->persistAndFlush($user);
 
         $data = [
             'status' => 200,
@@ -59,7 +55,6 @@ class UserController {
 
         return $this->response($data);
     }
-
     /**
      * @Route("/user/{id}", name="get_user", methods={"GET"})
      */
@@ -76,7 +71,6 @@ class UserController {
         ];
 
         return $this->response($data, 404);
-
     }
 
     /**
@@ -108,7 +102,7 @@ class UserController {
         return new JsonResponse($data, $status, $headers);
     }
 
-    protected function transformJsonBody(Request $request): Request {
+    protected function transformJsonBody(Request $request): Request { //todo Replace in service ? (dont repeat your self?)
         try {
             $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {

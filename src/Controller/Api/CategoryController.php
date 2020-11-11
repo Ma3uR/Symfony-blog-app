@@ -95,7 +95,7 @@ class CategoryController {
         return new JsonResponse($data, $status, $headers);
     }
 
-    protected function transformJsonBody(Request $request): Request {
+    protected function transformJsonBody(Request $request): Request { //todo Replace in service ? (dont repeat your self?)
         try {
             $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
