@@ -49,14 +49,20 @@ class ArticleService {
         return $article;
     }
 
+    // todo: naming fix createFromJson
+    // TODO: return created article
     public function apiCreate($articleJson): void {
         $article = $this->articleDeserializer->deserialize($articleJson, Article::class, 'json');
 
         $errors = $this->validator->validate($article);  // todo exception listener,(exceptions returns in JSON)
         if (count($errors) > 0) {
+            // TODO: implement own ValidationException
             throw new \RuntimeException('Category with this title already exist');
         }
+
+        // TODO: move to creating of variable
         /**@var $article Article */
+        // TODO: use em->persist ->flush
         $this->persistAndFlush($article);
     }
 

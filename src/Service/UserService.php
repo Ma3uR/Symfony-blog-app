@@ -20,11 +20,16 @@ class UserService {
     }
 
     public function persistAndFlush(User $user): User {
+
+        // TODO: move to Entity Listener
         $passwordEncoder = $this->passwordEncoder;
         $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
         $user->setPassword($password);
+        // TODO: remove one API token
         $apiToken = new ApiToken($user);
         $apiToken2 = new ApiToken($user);
+        //
+
         $em = $this->em;
         $em->persist($apiToken);
         $em->persist($apiToken2);
@@ -33,6 +38,10 @@ class UserService {
 
         return $user;
     }
+
+    // TODO:
+    // function create user
+    //      Must create user and persist and flush
 
     public function setData($username, $firstName, $lastName, $password) {
         $user = new User();

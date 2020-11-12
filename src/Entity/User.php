@@ -35,6 +35,8 @@ class User implements UserInterface, Serializable {
      *      allowEmptyString = false
      * )
      * @Groups("main")
+     *
+     * TODO: implement unique index in db
      */
     private string $username;
 
