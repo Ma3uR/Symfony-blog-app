@@ -34,6 +34,16 @@ class UserService {
         return $user;
     }
 
+    public function setData($username, $firstName, $lastName, $password) {
+        $user = new User();
+        $user->setUsername($username);
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
+        $user->setPlainPassword($password);
+
+        return $user;
+    }
+
     public function getEnvVar(): string {
         return $this->appEnv;
     }

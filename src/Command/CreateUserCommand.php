@@ -57,12 +57,9 @@ class CreateUserCommand extends Command {
             return $password;
         });
 
-        $user = new User();
-        $user->setUsername($username);
-        $user->setFirstName($firstName);
-        $user->setLastName($lastName);
-        $user->setPassword($password);
+
         $io->title('============ Creating user ============');
+        $user = $this->userService->setData($username,$firstName,$lastName,$password);
         $this->userService->persistAndFlush($user);
         $io->section('Generating the user');
         $io->horizontalTable(
