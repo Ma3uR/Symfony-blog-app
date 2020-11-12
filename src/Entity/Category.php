@@ -36,7 +36,6 @@ class Category {
      */
     private string $title;
 
-    // TODO: fix
     private Collection $articles;
 
     public function __construct() {

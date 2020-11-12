@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +18,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 /**
  * @Route("/api", name="api_")
  */
-class UserController {
+class UserController extends AbstractApiController {
     /**
      * @Route("/users", name="users", methods={"GET"})
      */
@@ -55,22 +56,23 @@ class UserController {
 
         return $this->response($data);
     }
+
     /**
      * @Route("/user/{id}", name="get_user", methods={"GET"})
      */
-    public function getUser($id): JsonResponse {
-        $user = $this->getUser($id);
+    public function getOne(User $user): JsonResponse {
+        return new JsonResponse($user);
+    }
 
-        if ($user) {
-            return $this->response($user);
-        }
+    /**
+     * @Route("/account", name="account")
+     */
+    public function accountApi(): JsonResponse {
+        $user = $this->getUser();
 
-        $data = [
-            'status' => 404,
-            'errors' => "User not found",
-        ];
-
-        return $this->response($data, 404);
+        return $this->json($user, 200, [], [
+            'groups' => ['main'],
+        ]);
     }
 
     /**
