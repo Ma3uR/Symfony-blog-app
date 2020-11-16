@@ -7,7 +7,7 @@ use App\Entity\User;
 use App\Enum\Flashtypes;
 use App\Entity\Article;
 use App\Form\Article\CreateArticleFormType;
-use App\Service\ArticleService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +20,8 @@ class ArticleController extends AbstractController {
     /**
      * @Route ("/create", name="create")
      */
-    public function create(Request $request, ArticleService $articleService): Response {
+    public function create(Request $request, EntityManagerInterface $em): Response {
         $form = $this->createForm(CreateArticleFormType::class);
-
         $form->handleRequest($request);
         if (!$form->isSubmitted() || !$form->isValid()) {
             return $this->render('article/create.html.twig', [
@@ -31,11 +30,12 @@ class ArticleController extends AbstractController {
         }
         /** @var $article Article */
         $article = $form->getData();
-
         /** @var User $user */
         $user = $this->getUser();
         $article->setAuthor($user);
-        $articleService->persistAndFlush($article);
+        $em->persist($article);
+        $em->flush();
+
         $this->addFlash(Flashtypes::FLASHTYPE, 'Article: «' . $article->getTitle() . '» Created!✅');
 
         return $this->redirect($this->generateUrl('home'));

@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Enum\Flashtypes;
 use App\Form\Category\CreateCategoryFormType;
 use App\Service\CategoryService;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +19,7 @@ class CategoryController extends AbstractController {
     /**
      * @Route("/create", name="create")
      */
-    public function create(Request $request, CategoryService $categoryService): Response {
+    public function create(Request $request, EntityManagerInterface $em): Response {
         $form = $this->createForm(CreateCategoryFormType::class);
         $form->handleRequest($request);
 
@@ -28,7 +30,8 @@ class CategoryController extends AbstractController {
         }
 
         $category = $form->getData();
-        $categoryService->createAndPersist($category);
+        $em->persist($category);
+        $em->flush();
         $this->addFlash(Flashtypes::FLASHTYPE, 'Category «' . $category->getTitle() . '» created');
 
         return $this->redirect($this->generateUrl('home'));

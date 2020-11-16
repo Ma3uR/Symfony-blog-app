@@ -7,43 +7,23 @@ namespace App\Service;
 use App\Entity\ApiToken;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserService {
-    private EntityManagerInterface $em;
     private string $appEnv;
+    private EntityManagerInterface $em;
+    private ValidatorInterface $validator;
+    private SerializerInterface $serializer;
 
-    public function __construct(EntityManagerInterface $em, string $appEnv, UserPasswordEncoderInterface $passwordEncoder) {
-        $this->em = $em;
+    public function __construct(string $appEnv,EntityManagerInterface $em, SerializerInterface $serializer, ValidatorInterface $validator) {
         $this->appEnv = $appEnv;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->em = $em;
+        $this->validator = $validator;
+        $this->serializer = $serializer;
     }
-
-    public function persistAndFlush(User $user): User {
-
-        // TODO: move to Entity Listener
-        $passwordEncoder = $this->passwordEncoder;
-        $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-        $user->setPassword($password);
-        // TODO: remove one API token
-        $apiToken = new ApiToken($user);
-        $apiToken2 = new ApiToken($user);
-        //
-
-        $em = $this->em;
-        $em->persist($apiToken);
-        $em->persist($apiToken2);
-        $em->persist($user);
-        $em->flush();
-
-        return $user;
-    }
-
-    // TODO:
-    // function create user
-    //      Must create user and persist and flush
-
-    public function setData($username, $firstName, $lastName, $password) {
+    
+    public function createUser($username, $firstName, $lastName, $password): User {
         $user = new User();
         $user->setUsername($username);
         $user->setFirstName($firstName);
@@ -53,7 +33,20 @@ class UserService {
         return $user;
     }
 
-    public function getEnvVar(): string {
-        return $this->appEnv;
+    public function createFromJson($userJson) {
+        $user = $this->serializer->deserialize($userJson, User::class, 'json');
+
+        $errors = $this->validator->validate($user);  // todo exception listener,(exceptions returns in JSON)
+        if (count($errors) > 0) {
+            $message = $errors->get(0);
+            throw new \RuntimeException($message->getMessage());
+        }
+        /** @var $user User */
+        $apiToken = new ApiToken($user);
+        $this->em->persist($apiToken);
+        $this->em->persist($user);
+        $this->em->flush();
+
+        return $user;
     }
 }

@@ -4,21 +4,26 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\User;
 use App\Service\UserService;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-//todo fix command
 class CreateUserCommand extends Command {
     protected static $defaultName = 'app:user-create';
     private UserService $userService;
+    private ValidatorInterface $validator;
+    private EntityManagerInterface $em;
 
-    public function __construct(UserService $userService) {
+    public function __construct(UserService $userService, ValidatorInterface $validator, EntityManagerInterface $em) {
         $this->userService = $userService;
+        $this->validator = $validator;
+        $this->em = $em;
         parent::__construct();
     }
 
@@ -57,10 +62,15 @@ class CreateUserCommand extends Command {
             return $password;
         });
 
-
         $io->title('============ Creating user ============');
-        $user = $this->userService->setData($username,$firstName,$lastName,$password);
-        $this->userService->persistAndFlush($user);
+        $user = $this->userService->createUser($username, $firstName, $lastName, $password);
+        $errors = $this->validator->validate($user);
+        if (count($errors) > 0) {
+            $message = $errors->get(0);
+            throw new \RuntimeException($message->getMessage());
+        }
+        $this->em->persist($user);
+        $this->em->flush();
         $io->section('Generating the user');
         $io->horizontalTable(
             ['Username', 'First Name', 'Last Name'],

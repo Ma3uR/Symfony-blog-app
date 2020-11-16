@@ -8,51 +8,49 @@ use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use App\Service\ArticleService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\Exception\RuntimeException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * TODO: routING fix
- * @Route("/api", name="api_article_")
+ * @Route("/api/article", name="api_article_")
  */
 class ArticleController extends AbstractApiController {
 
     /**
-     * @Route("/articles", name="all", methods={"GET"})
-     * TODO: naming fix - collection
+     * @Route("/", name="all", methods={"GET"})
      */
-    public function getAll(ArticleRepository $articleRepository): JsonResponse {
+    public function collection(ArticleRepository $articleRepository): JsonResponse {
         $data = $articleRepository->findAll();
 
         return new JsonResponse($data);
     }
 
     /**
-     * @Route("/article-add", name="add", methods={"POST"})
+     * @Route("/add", name="add", methods={"POST"})
      */
     public function add(
         Request $request,
         ArticleService $articleService
     ): JsonResponse {
         $articleJson = $request->getContent();
-        $articleService->apiCreate($articleJson);
+        $article = $articleService->createFromJson($articleJson);
 
-        // TODO: response must contain created entity, not user request
-        return new JsonResponse($articleJson);
+        return $this->json($article, 200, [], [
+            'groups' => ['main'],
+        ]);
     }
 
     /**
-     * @Route("/article/{id}", name="get", methods={"GET"})
-     * Todo: naming fix - details
+     * @Route("/{id}", name="get", methods={"GET"})
      */
-    public function getOne(Article $article): JsonResponse {
+    public function details(Article $article): JsonResponse {
         return new JsonResponse($article);
     }
 
     /**
-     * TODO: why post?
-     * @Route("/edit-article/{id}", name="edit", methods={"POST"})
+     * @Route("/{id}", name="edit", methods={"PUT"})
      */
     public function edit(
         Request $request,
@@ -60,25 +58,21 @@ class ArticleController extends AbstractApiController {
         ArticleService $articleService
     ): JsonResponse {
         $articleJson = $request->getContent();
-        $articleService->apiEdit($articleJson, $article);
+        $articleService->editFromJson($articleJson, $article);
 
         return new JsonResponse($article);
     }
 
     /**
-     * TODO: learn what is requirements
-     * @Route("/article-delete/{id}", name="delete", methods={"DELETE"}, requirements={"id":"\d+"})
+     * @Route("/{id}", name="delete", methods={"DELETE"})
      */
     public function delete(EntityManagerInterface $entityManager, Article $article): JsonResponse {
+        if (!$article) {
+            throw new RuntimeException('Article does not exist');
+        }
         $entityManager->remove($article);
         $entityManager->flush();
 
-        // TODO: return only ok
-        $data = [
-            'status' => 200,
-            'errors' => "Article " . $article->getTitle() . " deleted successfully",
-        ];
-
-        return new JsonResponse($data);
+        return $this->json('ok', 200);
     }
 }

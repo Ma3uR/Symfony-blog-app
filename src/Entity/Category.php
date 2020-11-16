@@ -25,7 +25,7 @@ class Category {
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Category title should not be blank")
      * @Assert\Length(
      *      min = 2,
      *      max = 50,
@@ -36,7 +36,7 @@ class Category {
      */
     private string $title;
 
-    private Collection $articles;
+    private ?Collection $articles = null;
 
     public function __construct() {
         $this->articles = new ArrayCollection();
@@ -56,7 +56,7 @@ class Category {
         return $this;
     }
 
-    public function getArticles(): Collection {
+    public function getArticles(): ?Collection {
         return $this->articles;
     }
 

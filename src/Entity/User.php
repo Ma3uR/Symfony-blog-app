@@ -7,15 +7,27 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping\UniqueConstraint;
+use Doctrine\ORM\PersistentCollection;
 use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping\Table;
 
 /**
+ * @Table(name="user",
+ *    uniqueConstraints={
+ *        @UniqueConstraint(name="username_unique",
+ *            columns={"username"})
+ *    }
+ * )
  * @ORM\Entity()
+ * @HasLifecycleCallbacks
  * @UniqueEntity("username", message="This username allready exist")
+ * @ORM\EntityListeners({"App\EntityListener\UserListener"})
  */
 class User implements UserInterface, Serializable {
     /**
@@ -36,13 +48,12 @@ class User implements UserInterface, Serializable {
      * )
      * @Groups("main")
      *
-     * TODO: implement unique index in db
      */
     private string $username;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Username should not be blank")
      * @Assert\Length(
      *      min = 2,
      *      max = 30,
@@ -85,7 +96,7 @@ class User implements UserInterface, Serializable {
     private Collection $articles;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Password should not be blank")
      * @Assert\Length(
      *      min = 8,
      *      max = 255,
@@ -94,7 +105,8 @@ class User implements UserInterface, Serializable {
      *      allowEmptyString = false
      * )
      */
-    private string $plainPassword;
+    private ?string $plainPassword = null;
+
 
     /**
      * @ORM\OneToMany(targetEntity=ApiToken::class, mappedBy="user", orphanRemoval=true)
@@ -105,6 +117,7 @@ class User implements UserInterface, Serializable {
         $this->articles = new ArrayCollection();
         $this->apiTokens = new ArrayCollection();
     }
+
 
     public function getId(): ?int {
         return $this->id;
@@ -140,12 +153,12 @@ class User implements UserInterface, Serializable {
         return $this;
     }
 
-    public function getPlainPassword(): string {
-        return $this->plainPassword;
-    }
-
     public function setPlainPassword($password): void {
         $this->plainPassword = $password;
+    }
+
+    public function getPlainPassword(): ?string {
+        return $this->plainPassword;
     }
 
     public function getPassword(): string {
@@ -204,11 +217,7 @@ class User implements UserInterface, Serializable {
         ] = unserialize($serialized, ['allowed_classes' => false]);
     }
 
-    /**
-     * @return Collection|ApiToken[]
-     */
-    public function getApiTokens(): Collection
-    {
+    public function getApiTokens(): Collection {
         return $this->apiTokens;
     }
 

@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Article;
-use App\Entity\Category;
-use App\Serializer\ArticleDeserializer;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -16,57 +17,39 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ArticleService {
     private EntityManagerInterface $em;
     private ValidatorInterface $validator;
-    private ArticleDeserializer $articleDeserializer;
     private SerializerInterface $serializer;
+    private Request $request;
+    private Security $security;
 
     public function __construct(
         EntityManagerInterface $em,
         ValidatorInterface $validator,
-        ArticleDeserializer $articleDeserializer,
-        SerializerInterface $serializer) {
+        SerializerInterface $serializer,
+        Security $security) {
         $this->em = $em;
         $this->validator = $validator;
-        $this->articleDeserializer = $articleDeserializer;
         $this->serializer = $serializer;
+        $this->security = $security;
     }
 
-    public function createAndPersist($author, string $title, string $description, Category $category): void {
-        $article = new Article();
-        $article->setAuthor($author)
-            ->setTitle($title)
-            ->setDescription($description)
-            ->setCategory($category);
-        $em = $this->em;
-        $em->persist($article);
-        $em->flush();
-    }
+    // JSON
+    public function createFromJson($articleJson): Article {
+        /**@var $article Article */
+        $article = $this->serializer->deserialize($articleJson, Article::class, 'json');
 
-    public function persistAndFlush(Article $article): Article {
-        $em = $this->em;
-        $em->persist($article);
-        $em->flush();
+        $errors = $this->validator->validate($article);  // todo exception listener,(exceptions returns in JSON)
+
+        if (count($errors) > 0) {
+            $message = $errors->get(0);
+            throw new \RuntimeException($message->getMessage());
+        }
+        $this->em->persist($article);
+        $this->em->flush();
 
         return $article;
     }
 
-    // todo: naming fix createFromJson
-    // TODO: return created article
-    public function apiCreate($articleJson): void {
-        $article = $this->articleDeserializer->deserialize($articleJson, Article::class, 'json');
-
-        $errors = $this->validator->validate($article);  // todo exception listener,(exceptions returns in JSON)
-        if (count($errors) > 0) {
-            // TODO: implement own ValidationException
-            throw new \RuntimeException('Category with this title already exist');
-        }
-
-        // TODO: move to creating of variable
-        /**@var $article Article */
-        // TODO: use em->persist ->flush
-        $this->persistAndFlush($article);
-    }
-
-    public function apiEdit($articleJson, $article) {
+    public function editFromJson($articleJson, $article) {
         $this->serializer->deserialize($articleJson, Article::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $article]);
         if (!$article) {
             $data = [
