@@ -22,7 +22,7 @@ class UserService {
         $this->validator = $validator;
         $this->serializer = $serializer;
     }
-    
+
     public function createUser($username, $firstName, $lastName, $password): User {
         $user = new User();
         $user->setUsername($username);
