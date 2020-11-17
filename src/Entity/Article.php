@@ -60,11 +60,13 @@ class Article implements \JsonSerializable {
      * @ORM\JoinColumn(nullable=true)
      * @Groups("main")
      */
-    private ?Category $category;
+    private Category $category;
 
-//    public function __construct(User $author) { todo Cannot find whats wrong with this constructor
-//        $this->author = $author;
-//    }
+    public function __construct(string $title, string $description, User $author) {
+        $this->title = $title;
+        $this->description = 'Description: ' . $description;
+        $this->author = $author;
+    }
 
     public function getId(): ?int {
         return $this->id;

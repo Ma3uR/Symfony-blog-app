@@ -25,20 +25,15 @@ class ArticleNormalizer implements ContextAwareDenormalizerInterface {
     }
 
     public function denormalize($data, string $type, string $format = null, array $context = []): Article {
-        if (!isset($data['category'])) {
-            $category = null;
-        } else {
-            $categoryId = $data['category'];
-            $category = $this->categoryRepository->find($categoryId);
-        }
-
-        $article = new Article();
         /** @var $user User */
         $user = $this->security->getUser();
-        $article->setTitle($data['title']);
-        $article->setDescription($data['description']);
-        $article->setCategory($category);
-        $article->setAuthor($user);
+
+        $article = new Article($data['title'], $data['description'], $user);
+
+        if (isset($data['category'])) {
+            $category = $this->categoryRepository->find($data['category']);
+            $article->setCategory($category);
+        }
 
         return $article;
     }

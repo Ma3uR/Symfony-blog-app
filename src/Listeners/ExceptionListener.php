@@ -11,10 +11,11 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 class ExceptionListener {
     public function onKernelException(ExceptionEvent $event) {
-        $url = $event->getRequest()->attributes->get('_route');
-        if ($url === null || !strpos($url, "api") === 0) {
-            throw new RuntimeException('Url  ' . $event->getRequest()->getPathInfo() . '  not found');
+        $routeName = $event->getRequest()->attributes->get('_route');
+        if (!$routeName || !(strpos($routeName, "api") === 0)) {
+            return;
         }
+
         $exception = $event->getThrowable();
         $event->setResponse(new JsonResponse([
             'code' => $exception->getCode(),

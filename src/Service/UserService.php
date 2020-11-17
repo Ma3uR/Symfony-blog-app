@@ -33,7 +33,7 @@ class UserService {
         return $user;
     }
 
-    public function createFromJson($userJson) {
+    public function createFromJson($userJson): User {
         $user = $this->serializer->deserialize($userJson, User::class, 'json');
 
         $errors = $this->validator->validate($user);  // todo exception listener,(exceptions returns in JSON)

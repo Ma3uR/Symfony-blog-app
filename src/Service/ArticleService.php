@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Article;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +24,8 @@ class ArticleService {
         EntityManagerInterface $em,
         ValidatorInterface $validator,
         SerializerInterface $serializer,
-        Security $security) {
+        Security $security
+    ) {
         $this->em = $em;
         $this->validator = $validator;
         $this->serializer = $serializer;
@@ -34,7 +34,7 @@ class ArticleService {
 
     // JSON
     public function createFromJson($articleJson): Article {
-        /**@var $article Article */
+        /** @var $article Article */
         $article = $this->serializer->deserialize($articleJson, Article::class, 'json');
 
         $errors = $this->validator->validate($article);  // todo exception listener,(exceptions returns in JSON)
@@ -49,8 +49,11 @@ class ArticleService {
         return $article;
     }
 
-    public function editFromJson($articleJson, $article) {
-        $this->serializer->deserialize($articleJson, Article::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $article]);
+    public function editFromJson($articleJson, Article $article) {
+        $this->serializer->deserialize($articleJson, Article::class, 'json', [
+            AbstractNormalizer::OBJECT_TO_POPULATE => $article
+        ]);
+
         if (!$article) {
             $data = [
                 'status' => 404,
@@ -64,6 +67,6 @@ class ArticleService {
         if (count($errors) > 0) {
             throw new \RuntimeException('Category with this title already exist');
         }
-       $this->em->flush();
+        $this->em->flush();
     }
 }

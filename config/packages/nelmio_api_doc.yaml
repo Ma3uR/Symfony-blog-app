@@ -5,8 +5,10 @@ nelmio_api_doc:
             description: Default Value blog
             version: 1.0.0
 
+
         paths:
-            /api/user/add: #User documentation
+            ## User documentation
+            /api/user/add:
                 post:
                     tags:
                         - User functional
