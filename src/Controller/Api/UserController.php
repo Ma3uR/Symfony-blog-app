@@ -46,11 +46,13 @@ class UserController extends AbstractApiController {
      * @Route("/{id}", name="get_user", methods={"GET"})
      */
     public function getOne(User $user): JsonResponse {
-        return new JsonResponse($user);
+        return $this->json($user, 200, [], [
+            'groups' => ['main']
+        ]);
     }
 
     /**
-     * @Route("/account", name="account")
+     * @Route("/account", name="account", methods={"GET"})
      */
     public function accountApi(): JsonResponse {
         $user = $this->getUser();

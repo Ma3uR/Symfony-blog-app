@@ -38,7 +38,7 @@ class ArticleController extends AbstractApiController {
         $article = $articleService->createFromJson($articleJson);
 
         return $this->json($article, 200, [], [
-            'groups' => ['main'],
+            'groups' => ['main']
         ]);
     }
 

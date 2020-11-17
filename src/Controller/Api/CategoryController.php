@@ -32,7 +32,9 @@ class CategoryController extends AbstractApiController {
      * @Route("/{id}", name="get_category", methods={"GET"})
      */
     public function getCategory(Category $category): JsonResponse {
-        return $this->json($category, 200, []);
+        return $this->json($category, 200, [
+            'groups' => ['main']
+        ]);
     }
 
     /**

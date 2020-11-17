@@ -1,0 +1,26 @@
+paths:
+  /article:
+    post:
+      summary: Creates a new article.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          description: The article to create.
+          schema:
+            type: object
+            required:
+              - username
+            properties:
+              username:
+                type: string
+              first-name:
+                type: string
+              last-name:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: Return User object in json

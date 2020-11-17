@@ -1,0 +1,288 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Api documentation
+            description: Default Value blog
+            version: 1.0.0
+
+        paths:
+            /api/user/add: #User documentation
+                post:
+                    tags:
+                        - User functional
+                    summary: Registration from api
+                    parameters:
+                        - in: body
+                          name: user
+                          description: The user to create.
+                          schema:
+                              type: object
+                              required:
+                                  - username
+                                  - plainPassword
+                              properties:
+                                  username:
+                                      type: string
+                                  firstName:
+                                      type: string
+                                  lastName:
+                                      type: string
+                                  plainPassword:
+                                      type: string
+                    responses:
+                        '200':
+                            description: OK
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            username:
+                                                type: string
+                                            first-name:
+                                                type: string
+                                            last-name:
+                                                type: string
+                        '400':
+                            description: Invalid JSON.
+                    security: [ ]
+
+            /api/user:
+                get:
+                    tags:
+                        - User functional
+                    summary: Get list of users in app
+                    responses:
+                        '200':
+                            description: List of users
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            username:
+                                                type: string
+                                            first-name:
+                                                type: string
+                                            last-name:
+                                                type: string
+                        '400':
+                            description: Invalid JSON.
+                    security: [ ]
+
+            /api/user/{id}:
+                get:
+                    tags:
+                        - User functional
+                    summary: Get one user
+                    responses:
+                        '200':
+                            description: User
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            username:
+                                                type: string
+                                            first-name:
+                                                type: string
+                                            last-name:
+                                                type: string
+                        '400':
+                            description: Invalid JSON.
+                    security: [ ]
+                delete:
+                    tags:
+                        - User functional
+                    summary: Delete one user
+                    responses:
+                        '200':
+                            description: ok
+                        '400':
+                            description: Invalid JSON.
+                    security: [ ] #User documentation end
+
+            /api/article: #Article documentation
+                get:
+                    tags:
+                        - Article functional
+                    summary: Get list of articles
+                    responses:
+                        '200':
+                            description: ok
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            title:
+                                                type: string
+                                            description:
+                                                type: string
+                        '400':
+                            description: Invalid JSON.
+            /api/article/add:
+                post:
+                    tags:
+                        - Article functional
+                    summary: Add article from api
+                    parameters:
+                        - in: body
+                          name: article
+                          description: The Article to create.
+                          schema:
+                              type: object
+                              required:
+                                  - title
+                                  - description
+                              properties:
+                                  title:
+                                      type: string
+                                  description:
+                                      type: string
+                                  category:
+                                      type: integer
+                    responses:
+                        '200':
+                            description: ok
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            title:
+                                                type: string
+                                            description:
+                                                type: string
+                        '400':
+                            description: Invalid JSON.
+                    security: [ ]
+            /api/article/{id}:
+                get:
+                    tags:
+                        - Article functional
+                    summary: Get one article
+                    responses:
+                        '200':
+                            description: article
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            title:
+                                                type: string
+                                            description:
+                                                type: string
+                        '400':
+                            description: Invalid JSON.
+                    security: [ ]
+                delete:
+                    tags:
+                        - Article functional
+                    summary: Delete one article
+                    responses:
+                        '200':
+                            description: ok
+                        '400':
+                            description: Invalid JSON.
+                    security: [ ]
+
+                put:
+                    tags:
+                        - Article functional
+                    summary: Edit one article
+                    parameters:
+                        - in: body
+                          name: article
+                          description: The Article to create.
+                          schema:
+                              type: object
+                              properties:
+                                  title:
+                                      type: string
+                                  description:
+                                      type: string
+                                  category:
+                                      type: integer
+                    responses:
+                        '200':
+                            description: ok
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            title:
+                                                type: string
+                                            description:
+                                                type: string
+                        '400':
+                            description: Invalid JSON.
+                    security: [ ] #Article documentation end
+
+            /api/category/add: #Category documentation
+                post:
+                    tags:
+                        - Category functional
+                    summary: Add category from api
+                    parameters:
+                        - in: body
+                          name: category
+                          description: The Category to create.
+                          schema:
+                              type: object
+                              required:
+                                  - title
+                              properties:
+                                  title:
+                                      type: string
+                    responses:
+                        '200':
+                            description: ok
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            title:
+                                                type: string
+                                            description:
+                                                type: string
+                        '400':
+                            description: Invalid JSON.
+                    security: [ ]
+            /api/category/{id}:
+                get:
+                    tags:
+                        - Category functional
+                    summary: Get one category
+                    responses:
+                        '200':
+                            description: category
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            title:
+                                                type: string
+                        '400':
+                            description: Invalid JSON.
+                    security: [ ]
+                delete:
+                    tags:
+                        - Category functional
+                    summary: Delete one article
+                    responses:
+                        '200':
+                            description: ok
+                        '400':
+                            description: Invalid JSON.
+                    security: [ ] #Category documentation end
+
+    areas:
+        path_patterns:
+            - ^/api(?!/doc$)
+
