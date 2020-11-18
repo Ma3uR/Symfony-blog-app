@@ -1,5 +1,11 @@
 nelmio_api_doc:
     documentation:
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'Authorization: Bearer {jwt}'
+                name: Authorization
+                in: header
         info:
             title: Api documentation
             description: Default Value blog
@@ -33,7 +39,7 @@ nelmio_api_doc:
                                       type: string
                     responses:
                         '200':
-                            description: OK
+                            description: User created
                             content:
                                 application/json:
                                     schema:
