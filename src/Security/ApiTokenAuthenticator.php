@@ -3,8 +3,10 @@
 namespace App\Security;
 
 use App\Repository\ApiTokenRepository;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
@@ -14,14 +16,14 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 class ApiTokenAuthenticator extends AbstractGuardAuthenticator {
 
-    private $apiTokenRepo;
+    private ApiTokenRepository $apiTokenRepo;
 
     public function __construct(ApiTokenRepository $apiTokenRepo)
     {
         $this->apiTokenRepo = $apiTokenRepo;
     }
 
-    public function supports(Request $request) {
+    public function supports(Request $request): bool {
         return $request->headers->has('Authorization')
             && 0 === strpos($request->headers->get('Authorization'), 'Bearer ');
     }
@@ -50,7 +52,7 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator {
         return true;
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): JsonResponse {
         return new JsonResponse([
             'message' => $exception->getMessageKey()
         ], 401);
@@ -60,11 +62,11 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator {
         return null;
     }
 
-    public function start(Request $request, AuthenticationException $authException = null) {
-        throw new \Exception('Not used: entry_point from other authentication is used');
+    public function start(Request $request, AuthenticationException $authException = null): Response {
+        throw new Exception('Not used: entry_point from other authentication is used');
     }
 
-    public function supportsRememberMe() {
+    public function supportsRememberMe(): bool {
         return false;
     }
 }

@@ -4,20 +4,15 @@ declare(strict_types=1);
 
 namespace App\EntityListener;
 
-use App\Entity\ApiToken;
 use App\Entity\User;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\PreFlush;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserListener {
     private UserPasswordEncoderInterface $passwordEncoder;
-    private EntityManagerInterface $em;
 
-    public function __construct(UserPasswordEncoderInterface $encoder, EntityManagerInterface $em) {
+    public function __construct(UserPasswordEncoderInterface $encoder) {
         $this->passwordEncoder = $encoder;
-        $this->em = $em;
     }
 
     /** @PreFlush */

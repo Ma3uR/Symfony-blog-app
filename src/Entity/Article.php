@@ -6,13 +6,14 @@ namespace App\Entity;
 
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  */
-class Article implements \JsonSerializable {
+class Article implements JsonSerializable {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

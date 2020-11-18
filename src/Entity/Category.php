@@ -38,7 +38,7 @@ class Category {
      */
     private string $title;
 
-    private ?Collection $articles = null;
+    private Collection $articles;
 
     public function __construct() {
         $this->articles = new ArrayCollection();

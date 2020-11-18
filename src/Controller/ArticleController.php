@@ -55,7 +55,7 @@ class ArticleController extends AbstractController {
     /**
      * @Route ("/{id}", name="viewSingle")
      */
-    public function viewSingle(Article  $article) {
+    public function viewSingle(Article  $article): Response {
         return $this->render('article/single.html.twig', [
             'article' => $article
         ]);

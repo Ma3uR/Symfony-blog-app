@@ -6,7 +6,7 @@ namespace App\Events;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class RequestEvent extends Events {
+class RequestEvent {
     private Request $request;
 
     public function __construct(Request $request) {

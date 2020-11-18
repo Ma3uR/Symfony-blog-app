@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,7 +20,7 @@ class ArticleRepository extends ServiceEntityRepository {
         parent::__construct($registry, Article::class);
     }
 
-    public function selectArticles(): \Doctrine\ORM\QueryBuilder {
+    public function selectArticles(): QueryBuilder {
         return $this->createQueryBuilder('a')
             ->select('a.id')
             ->addSelect("CONCAT(u.firstName,' ',u.lastName) AS full_name")
@@ -31,7 +32,6 @@ class ArticleRepository extends ServiceEntityRepository {
     }
 
     public function getAllArticles(): array {
-
         return $this->selectArticles()
             ->orderBy('a.id', 'ASC')
             ->getQuery()
@@ -39,7 +39,6 @@ class ArticleRepository extends ServiceEntityRepository {
     }
 
     public function getLatest() {
-
         return $this->selectArticles()
             ->orderBy('a.id', 'ASC')
             ->setMaxResults(5)

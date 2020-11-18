@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\UniqueConstraint;
-use Doctrine\ORM\PersistentCollection;
 use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -111,7 +110,7 @@ class User implements UserInterface, Serializable {
     /**
      * @ORM\OneToMany(targetEntity=ApiToken::class, mappedBy="user", orphanRemoval=true)
      */
-    private $apiTokens;
+    private Collection $apiTokens;
 
     public function __construct() {
         $this->articles = new ArrayCollection();
@@ -187,11 +186,7 @@ class User implements UserInterface, Serializable {
         return $this;
     }
 
-    public function getSalt() {
-
-    }
-
-    public function getRoles() {
+    public function getRoles(): array {
         return [
             'ROLE_USER'
         ];
@@ -201,7 +196,7 @@ class User implements UserInterface, Serializable {
         // TODO: Implement eraseCredentials() method.
     }
 
-    public function serialize() {
+    public function serialize(): ?string {
         return serialize([
             $this->id,
             $this->username,
@@ -227,5 +222,9 @@ class User implements UserInterface, Serializable {
             $this->apiTokens[] = $apiToken;
         }
         return $this;
+    }
+
+    public function getSalt() {
+        // TODO: Implement getSalt() method.
     }
 }

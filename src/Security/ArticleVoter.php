@@ -8,15 +8,9 @@ use App\Entity\Article;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\Security;
 
 class ArticleVoter extends Voter {
     public const EDIT = 'edit';
-    private Security $security;
-
-    public function __construct(Security $security) {
-        $this->security = $security;
-    }
 
     protected function supports(string $attribute, $subject): bool {
         if ($attribute !== self::EDIT) {

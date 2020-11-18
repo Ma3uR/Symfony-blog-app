@@ -7,19 +7,19 @@ use App\Entity\User;
 use App\Repository\CategoryRepository;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ArticleNormalizer implements ContextAwareDenormalizerInterface {
     private CategoryRepository $categoryRepository;
-    private TokenStorageInterface $user;
     private Security $security;
 
     public function __construct(
         CategoryRepository $categoryRepository,
-        Security $security) {
+        Security $security
+    ) {
         $this->categoryRepository = $categoryRepository;
         $this->security = $security;
     }
+
     public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool {
         return $type === Article::class;
     }

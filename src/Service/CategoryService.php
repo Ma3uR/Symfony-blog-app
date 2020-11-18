@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
+use RuntimeException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -32,7 +33,7 @@ class CategoryService {
 
         $errors = $this->validator->validate($category);
         if (count($errors) > 0) {
-            throw new \RuntimeException('Category with this title already exist');
+            throw new RuntimeException('Category with this title already exist');
         }
 
         $this->em->persist($category);

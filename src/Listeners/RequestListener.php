@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class RequestListener {
+    private LoggerInterface $logger;
 
     public function __construct(LoggerInterface $homeChannelLogger) {
         $this->logger = $homeChannelLogger;

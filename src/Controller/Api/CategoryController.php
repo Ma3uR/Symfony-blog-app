@@ -7,6 +7,7 @@ namespace App\Controller\Api;
 use App\Entity\Category;
 use App\Service\CategoryService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/api/category", name="api_")
  */
-class CategoryController extends AbstractApiController {
+class CategoryController extends AbstractController {
     /**
      * @Route("/add", name="add_category", methods={"POST"})
      */

@@ -31,10 +31,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Service\UserService:
-        arguments:
-            $appEnv: '%env(MY_VAR)%'
-
     App\Listeners\RequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onRequest }
